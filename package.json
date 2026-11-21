@@ -1,0 +1,12 @@
+{
+  "name": "kabem-jogos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vitrine estática dos jogos da Kabem: a porta de entrada para jogar no navegador.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
