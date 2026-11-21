@@ -15,29 +15,48 @@
       "url": "https://kabemjunto.kabemmanager.online/",
       "imagem": "img/kabemjunto.webp",
       "imagemAlt": "Mesa de Kabemjunto em 3D, com a mão do jogador embaixo e dois bots nas laterais",
-      "modos": ["Contra bots", "Online"],
+      "modos": [
+        "Contra bots",
+        "Online"
+      ],
       "jogadores": "2 a 10 jogadores",
       "duracao": "8 a 15 min",
       "plataforma": "Celular e PC",
       "selo": null,
-      "generos": ["Cartas", "Multijogador"],
-      "playMode": ["SinglePlayer", "MultiPlayer"]
+      "generos": [
+        "Cartas",
+        "Multijogador"
+      ],
+      "playMode": [
+        "SinglePlayer",
+        "MultiPlayer"
+      ]
     },
     {
-      "id": "fendas",
-      "nome": "Circuito das Fendas",
-      "gancho": "Uma corrida de 120 segundos por um festival interdimensional.",
-      "descricao": "Corra por 12 checkpoints, escolha entre três rotas, desvie dos obstáculos e alterne entre os estados Solar e Lunar. Dispute contra bots ou online e suba no ranking.",
-      "url": "https://jogo.kabemmanager.online/",
-      "imagem": "img/fendas.webp",
-      "imagemAlt": "Largada do Circuito das Fendas: cinco personagens coloridos diante de uma pista flutuante, com a contagem 4",
-      "modos": ["Contra bots", "Online"],
-      "jogadores": "Até 6 na pista",
-      "duracao": "120 s por corrida",
-      "plataforma": "PC (teclado)",
-      "selo": "Beta",
-      "generos": ["Corrida", "Plataforma", "Multijogador"],
-      "playMode": ["SinglePlayer", "MultiPlayer"]
+      "id": "turbo",
+      "nome": "Turbo Maré",
+      "gancho": "Pegue os anéis de turbo e escape dos tentáculos.",
+      "descricao": "Corrida 3D pelo Circuito do Kraken: dez pilotos largam em um píer tropical e os seis primeiros a cruzar a linha em até 90 segundos se classificam. Pule, mergulhe, pegue os anéis de turbo, escolha entre Lontra, Tubarão, Axolote ou Marujo e chame amigos para uma sala online na Copa das Marés.",
+      "url": "https://alexandremocmg.github.io/turbo_mare/",
+      "imagem": "img/turbo.webp",
+      "imagemAlt": "Dez pilotos na linha de largada de um píer tropical, com palmeiras, ilhas e um farol ao fundo",
+      "modos": [
+        "Contra bots",
+        "Online"
+      ],
+      "jogadores": "1 a 6 jogadores",
+      "duracao": "90 s por corrida",
+      "plataforma": "Celular e PC",
+      "selo": null,
+      "generos": [
+        "Corrida",
+        "Ação",
+        "Multijogador"
+      ],
+      "playMode": [
+        "SinglePlayer",
+        "MultiPlayer"
+      ]
     },
     {
       "id": "corrida",
@@ -47,29 +66,46 @@
       "url": "https://corrida.kabemmanager.online/",
       "imagem": "img/corrida.webp",
       "imagemAlt": "Corredor em uma avenida entre prédios, com moedas amarelas pelo caminho",
-      "modos": ["Solo"],
+      "modos": [
+        "Solo"
+      ],
       "jogadores": "1 jogador",
       "duracao": "Partidas rápidas",
       "plataforma": "Celular e PC",
       "selo": null,
-      "generos": ["Corredor infinito", "Ação"],
-      "playMode": ["SinglePlayer"]
+      "generos": [
+        "Corredor infinito",
+        "Ação"
+      ],
+      "playMode": [
+        "SinglePlayer"
+      ]
     },
     {
-      "id": "raizes",
-      "nome": "Raízes Cruzadas",
-      "gancho": "Uma aventura sobre o que ocupa o centro da sua ilha.",
-      "descricao": "Jogo educacional em 3D, para um jogador, sobre por que amar a Deus sobre todas as coisas. Leve água a quem não pode retribuir, escolha o que fica no centro da sua ilha e descubra o que sempre correu por baixo de todas elas. Tema cristão.",
-      "url": "https://raizes.kabemmanager.online/",
-      "imagem": "img/raizes.webp",
-      "imagemAlt": "Uma ilha flutuante com uma árvore escura, um poço e um personagem, cercada por outras ilhas",
-      "modos": ["Solo"],
-      "jogadores": "1 jogador",
-      "duracao": "15 a 20 min",
-      "plataforma": "Celular e PC",
-      "selo": null,
-      "generos": ["Aventura", "Educacional"],
-      "playMode": ["SinglePlayer"]
+      "id": "fendas",
+      "nome": "Circuito das Fendas",
+      "gancho": "Uma corrida de 120 segundos por um festival interdimensional.",
+      "descricao": "Corra por 12 checkpoints, escolha entre três rotas, desvie dos obstáculos e alterne entre os estados Solar e Lunar. Dispute contra bots ou online e suba no ranking.",
+      "url": "https://jogo.kabemmanager.online/",
+      "imagem": "img/fendas.webp",
+      "imagemAlt": "Largada do Circuito das Fendas: cinco personagens coloridos diante de uma pista flutuante, com a contagem 4",
+      "modos": [
+        "Contra bots",
+        "Online"
+      ],
+      "jogadores": "Até 6 na pista",
+      "duracao": "120 s por corrida",
+      "plataforma": "PC (teclado)",
+      "selo": "Beta",
+      "generos": [
+        "Corrida",
+        "Plataforma",
+        "Multijogador"
+      ],
+      "playMode": [
+        "SinglePlayer",
+        "MultiPlayer"
+      ]
     },
     {
       "id": "esconde",
@@ -79,13 +115,46 @@
       "url": "https://esconde.kabemmanager.online/",
       "imagem": "img/esconde.webp",
       "imagemAlt": "Visão em primeira pessoa do Caçador em uma mansão, com arma de água azul e botões de ação",
-      "modos": ["Solo", "Online"],
+      "modos": [
+        "Solo",
+        "Online"
+      ],
       "jogadores": "1 a 5 jogadores",
       "duracao": "Rodadas curtas",
       "plataforma": "Celular e PC",
       "selo": "Protótipo",
-      "generos": ["Esconde-esconde", "Ação", "Multijogador"],
-      "playMode": ["SinglePlayer", "MultiPlayer"]
+      "generos": [
+        "Esconde-esconde",
+        "Ação",
+        "Multijogador"
+      ],
+      "playMode": [
+        "SinglePlayer",
+        "MultiPlayer"
+      ]
+    },
+    {
+      "id": "raizes",
+      "nome": "Raízes Cruzadas",
+      "gancho": "Uma aventura sobre o que ocupa o centro da sua ilha.",
+      "descricao": "Jogo educacional em 3D, para um jogador, sobre por que amar a Deus sobre todas as coisas. Leve água a quem não pode retribuir, escolha o que fica no centro da sua ilha e descubra o que sempre correu por baixo de todas elas. Tema cristão.",
+      "url": "https://raizes.kabemmanager.online/",
+      "imagem": "img/raizes.webp",
+      "imagemAlt": "Uma ilha flutuante com uma árvore escura, um poço e um personagem, cercada por outras ilhas",
+      "modos": [
+        "Solo"
+      ],
+      "jogadores": "1 jogador",
+      "duracao": "15 a 20 min",
+      "plataforma": "Celular e PC",
+      "selo": null,
+      "generos": [
+        "Aventura",
+        "Educacional"
+      ],
+      "playMode": [
+        "SinglePlayer"
+      ]
     }
   ]
 }

@@ -178,9 +178,9 @@ footer{padding:26px 0 40px;color:var(--mudo);font-size:.88rem}
 .aviso{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;padding:12px 18px;border-radius:12px;background:#fff;color:#111;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.4);transition:.25s;pointer-events:none}
 .aviso.ver{opacity:1;transform:translate(-50%,0)}
 @media(min-width:880px){
- .destaque{grid-column:1/-1;flex-direction:row}
- .destaque .capa{flex:1.15;aspect-ratio:auto;min-height:340px}
- .destaque .corpo{flex:1;justify-content:center;padding:26px 28px}
+ .destaque,.grade>.cartao:last-child:nth-child(even){grid-column:1/-1;flex-direction:row}
+ .destaque .capa,.grade>.cartao:last-child:nth-child(even) .capa{flex:1.15;aspect-ratio:auto;min-height:340px}
+ .destaque .corpo,.grade>.cartao:last-child:nth-child(even) .corpo{flex:1;justify-content:center;padding:26px 28px}
  .destaque h3{font-size:2rem}
  .destaque .desc{font-size:1.02rem}
 }

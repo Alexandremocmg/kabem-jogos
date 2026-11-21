@@ -40,6 +40,17 @@ const JOGOS = {
       await p.waitForTimeout(9000);
     },
   },
+  turbo: {
+    url: 'https://alexandremocmg.github.io/turbo_mare/',
+    async fluxo(p) {
+      await p.waitForTimeout(4000);
+      await p.getByRole('button', { name: /disputar corrida/i }).first().click({ timeout: 15000 });
+      await p.waitForTimeout(9000);
+      await p.keyboard.down('ArrowUp');
+      await p.waitForTimeout(3500);
+      await p.keyboard.up('ArrowUp');
+    },
+  },
   esconde: {
     url: 'https://esconde.kabemmanager.online/',
     async fluxo(p) {

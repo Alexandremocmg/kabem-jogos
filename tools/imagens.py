@@ -19,10 +19,11 @@ IMG = RAIZ / "img"
 # id do jogo (games.json) -> nome do arquivo de captura (sem extensão)
 CAPTURAS = {
     "kabemjunto": "kabemjunto",
-    "fendas": "fendas",
+    "turbo": "turbo",
     "corrida": "corrida",
-    "raizes": "raizes",
+    "fendas": "fendas",
     "esconde": "esconde-cacador",
+    "raizes": "raizes",
 }
 
 BG_TOPO = (14, 15, 35)
@@ -76,10 +77,12 @@ def main(pasta):
     d.text((140, 62), "Kabem Jogos", font=fonte("seguibl.ttf", 68), fill=TEXTO)
     d.text((56, 168), "Jogue no navegador.", font=fonte("seguibl.ttf", 54), fill=AMARELO)
     d.text((56, 238), "Sem instalar, sem cadastro. No celular ou no PC.", font=fonte("segoeui.ttf", 32), fill=MUDO)
-    largura, vão, y = 208, 12, 400
+    vão, y = 12, 400
+    largura = (1088 - vão * (len(miniaturas) - 1)) // len(miniaturas)
+    altura = round(largura * 9 / 16)
     x = 56
     for mini in miniaturas:
-        pequena = arredondar(mini.resize((largura, 117), Image.LANCZOS), 14)
+        pequena = arredondar(mini.resize((largura, altura), Image.LANCZOS), 14)
         og.alpha_composite(pequena, (x, y))
         x += largura + vão
     og.convert("RGB").save(IMG / "og.jpg", "JPEG", quality=86, optimize=True)
