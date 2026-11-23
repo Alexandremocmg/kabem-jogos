@@ -66,6 +66,6 @@ O que já está no `index.html`, gerado pelo `build.mjs`:
 
 O [roteiro de lançamento](docs/LANCAMENTO.md) reúne o clipe da Copa e as métricas para acompanhar a divulgação.
 
-O Casa 64 fica em `jogos/casa64/index.html`. Ao atualizar o jogo, copie o `index.html` do [repositório xadrez](https://github.com/Alexandremocmg/xadrez) para esse caminho. O próximo pull da vitrine na VPS publica o catálogo e o jogo juntos.
+O [Casa 64](https://github.com/Alexandremocmg/xadrez) e o [Metro Dash](https://github.com/Alexandremocmg/metro-dash) rodam na própria vitrine. Para atualizar cada jogo, copie o `index.html` do repositório correspondente para `jogos/casa64/` ou `jogos/metro-dash/`. O próximo pull da vitrine na VPS publica o catálogo e os jogos juntos.
 
 Para a página ser **encontrada**, falta o que o código não faz: cadastrar o endereço no Google Search Console e no Bing Webmaster Tools, enviar o `sitemap.xml` e divulgar o link (redes, comunidades, canais). Para medir visitas sem rastreadores, use o log de acesso do nginx dos jogos.

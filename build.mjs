@@ -14,7 +14,8 @@ const categories = [
   ['estrategia', 'Estratégia'], ['aventuras', 'Aventuras solo']
 ];
 const gameCategories = {
-  turbo: 'amigos rapidas', casa64: 'estrategia', kabemjunto: 'amigos estrategia', corrida: 'rapidas',
+  turbo: 'amigos rapidas', 'metro-dash': 'rapidas', casa64: 'estrategia',
+  kabemjunto: 'amigos estrategia', corrida: 'rapidas',
   fendas: 'amigos rapidas', esconde: 'amigos rapidas', raizes: 'aventuras'
 };
 const tracks = [

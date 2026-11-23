@@ -8,6 +8,22 @@
   },
   "jogos": [
     {
+      "id": "metro-dash",
+      "nome": "Metro Dash",
+      "gancho": "Desvie dos trens e siga o ritmo da cidade.",
+      "descricao": "Corra por três faixas, pule barreiras, deslize por baixo dos obstáculos e colete moedas. Complete missões, desbloqueie visuais e tente bater seu recorde.",
+      "url": "./jogos/metro-dash/",
+      "imagem": "img/metro-dash.webp",
+      "imagemAlt": "Corredora do Metro Dash em uma avenida de três faixas com moedas pelo caminho",
+      "modos": ["Solo", "Tutorial"],
+      "jogadores": "1 jogador",
+      "duracao": "Partidas rápidas",
+      "plataforma": "Celular e PC",
+      "selo": null,
+      "generos": ["Corredor infinito", "Ação"],
+      "playMode": ["SinglePlayer"]
+    },
+    {
       "id": "casa64",
       "nome": "Casa 64",
       "gancho": "Xadrez em 3D com um modo para aprender lance a lance.",
