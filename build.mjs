@@ -10,10 +10,11 @@ const esc = value => String(value).replace(/[&<>"']/g, char => ({
 }[char]));
 const absolute = path => new URL(path, site.url + '/').href;
 const categories = [
-  ['todos', 'Todos'], ['amigos', 'Com amigos'], ['rapidas', 'Partidas rápidas'], ['aventuras', 'Aventuras solo']
+  ['todos', 'Todos'], ['amigos', 'Com amigos'], ['rapidas', 'Partidas rápidas'],
+  ['estrategia', 'Estratégia'], ['aventuras', 'Aventuras solo']
 ];
 const gameCategories = {
-  turbo: 'amigos rapidas', kabemjunto: 'amigos', corrida: 'rapidas',
+  turbo: 'amigos rapidas', casa64: 'estrategia', kabemjunto: 'amigos estrategia', corrida: 'rapidas',
   fendas: 'amigos rapidas', esconde: 'amigos rapidas', raizes: 'aventuras'
 };
 const tracks = [
@@ -35,7 +36,8 @@ for (const game of jogos) {
     if (!game[key]?.length) throw new Error(`Campo "${key}" ausente em ${game.id}`);
   }
   if (used.has(game.id) || !/^[a-z0-9-]+$/.test(game.id)) throw new Error(`ID de jogo inválido ou duplicado: ${game.id}`);
-  if (new URL(game.url).protocol !== 'https:') throw new Error(`URL sem HTTPS em ${game.id}`);
+  if (new URL(game.url, site.url).protocol !== 'https:') throw new Error(`URL sem HTTPS em ${game.id}`);
+  if (game.url.startsWith('./')) readFileSync(root + game.url.slice(2) + 'index.html');
   used.add(game.id);
 }
 for (const image of [shareImage, ...jogos.map(game => game.imagem), ...tracks.map(([,img]) => `img/${img}.webp`)]) {
@@ -45,7 +47,7 @@ for (const image of [shareImage, ...jogos.map(game => game.imagem), ...tracks.ma
 function gameSchema(game) {
   return {
     '@type': 'VideoGame', name: game.nome, description: game.descricao,
-    url: game.id === 'turbo' ? absolute(turboPath) : game.url,
+    url: game.id === 'turbo' ? absolute(turboPath) : absolute(game.url),
     image: absolute(game.imagem), genre: game.generos, inLanguage: 'pt-BR',
     gamePlatform: 'Navegador', playMode: game.playMode.map(mode => `https://schema.org/${mode}`)
   };
@@ -128,7 +130,7 @@ function hero(detail = false) {
 }
 
 function card(game) {
-  const info = game.id === 'turbo' ? `<a class="text-link" href="./${turboPath}">Ver pistas</a>` : share(game, game.url);
+  const info = game.id === 'turbo' ? `<a class="text-link" href="./${turboPath}">Ver pistas</a>` : share(game, absolute(game.url));
   return `
       <article class="card" id="${esc(game.id)}" data-groups="${esc(gameCategories[game.id] || '')}">
         <div class="card-cover"><img src="./${esc(game.imagem)}" width="800" height="450" alt="${esc(game.imagemAlt)}" loading="lazy" decoding="async">${game.selo ? `<span class="badge">${esc(game.selo)}</span>` : ''}</div>
@@ -199,7 +201,8 @@ writeFileSync(root + turboPath + 'index.html', page({
 }));
 writeFileSync(root + 'sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${['', turboPath].map(path => `  <url><loc>${esc(absolute(path))}</loc><lastmod>${site.atualizado}</lastmod></url>`).join('\n')}
+${['', turboPath, ...jogos.filter(game => game.url.startsWith('./')).map(game => game.url)].map(path =>
+  `  <url><loc>${esc(absolute(path))}</loc><lastmod>${site.atualizado}</lastmod></url>`).join('\n')}
 </urlset>
 `);
 writeFileSync(root + 'robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${absolute('sitemap.xml')}\n`);

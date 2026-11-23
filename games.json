@@ -8,6 +8,22 @@
   },
   "jogos": [
     {
+      "id": "casa64",
+      "nome": "Casa 64",
+      "gancho": "Xadrez em 3D com um modo para aprender lance a lance.",
+      "descricao": "Jogue contra o computador em três níveis ou divida o tabuleiro com outra pessoa no mesmo aparelho. Alterne entre as vistas 2D e 3D. No modo Aprender, veja sugestões de jogadas e explicações.",
+      "url": "./jogos/casa64/",
+      "imagem": "img/casa64.webp",
+      "imagemAlt": "Tabuleiro de xadrez em perspectiva com peças claras e escuras, no Casa 64",
+      "modos": ["Contra o computador", "Dois no mesmo aparelho", "Aprender"],
+      "jogadores": "1 a 2 jogadores",
+      "duracao": "Sem relógio",
+      "plataforma": "Celular e PC",
+      "selo": null,
+      "generos": ["Estratégia", "Xadrez"],
+      "playMode": ["SinglePlayer", "MultiPlayer"]
+    },
+    {
       "id": "kabemjunto",
       "nome": "Kabemjunto",
       "gancho": "O jogo de cartas que te denuncia.",

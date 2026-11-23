@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#eff1e8">
+<title>Casa 64 — Xadrez 3D</title>
+<meta name="description" content="Xadrez 3D com modo Livre e modo Aprender: sugestões e explicações durante partidas completas. Funciona sem internet.">
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#2d4133;background:#eff1e8;color-scheme:light;--green:#375e43;--line:#dce3d4;--muted:#71806a;--cream:#fbfcf6}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}button,select{font:inherit}button{cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}button:disabled{opacity:.42;cursor:default}button:focus-visible,select:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid #ba8a31;outline-offset:3px}button svg{pointer-events:none}.icon{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}.piece{width:40px;height:40px;display:block;pointer-events:none}.game-screen{height:100vh;height:100dvh;display:flex;flex-direction:column;background:linear-gradient(135deg,#f8f6ef,#e8eee5)}.board-space{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.scene{width:100%;height:100%;display:block;touch-action:none;cursor:grab}.scene:active{cursor:grabbing}.menu-trigger{position:fixed;right:max(20px,env(safe-area-inset-right));top:max(20px,env(safe-area-inset-top));width:48px;height:48px;border:1px solid #d3dcc8;border-radius:50%;background:#fffef7e8;box-shadow:0 5px 22px #3a513916;display:grid;place-items:center;z-index:12;color:#36553c}.menu-trigger:hover{background:#e7efdd}.menu-trigger .icon{width:23px;height:23px}.menu-trigger[aria-expanded=true]{background:var(--green);color:#fffef1}.drawer-backdrop{position:fixed;inset:0;background:#24332630;backdrop-filter:blur(3px);z-index:20}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(380px,100%);padding:24px 25px 30px;background:var(--cream);border-left:1px solid #d3ddc8;z-index:21;box-shadow:-18px 0 60px #25372418;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}.drawer-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.wordmark{font-size:19px;letter-spacing:2.6px;font-weight:800}.wordmark small{font-size:10px;font-weight:400;letter-spacing:1.4px;display:block;color:#91a083;margin-top:6px}.icon-button{width:35px;height:35px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:transparent}.icon-button:hover{background:#eaf0e2}.status-box{border:1px solid var(--line);background:#eff4e8;border-radius:10px;padding:15px;margin-bottom:24px}.status-title{font-family:Georgia,serif;font-size:24px;font-weight:400;margin:0 0 6px}.status-text{font-size:11px;color:#708160;line-height:1.6;margin:0}.section-label{display:block;font-size:10px;letter-spacing:1.25px;font-weight:700;color:#80916e;margin:0 0 10px}.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px}.mode-switch button{display:flex;gap:8px;align-items:center;justify-content:center;min-height:45px;border:1px solid var(--line);background:transparent;border-radius:8px;font-size:12px}.mode-switch button[aria-pressed=true]{border-color:#9fb98d;background:#e7efdd;color:#355c37;box-shadow:inset 0 0 0 1px #9fb98d;font-weight:700}.mode-description{color:var(--muted);font-size:11px;line-height:1.75;margin:10px 0 22px}.primary,.secondary{min-height:42px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;font-size:12px;padding:10px 13px}.primary{background:var(--green);color:#fffef1;border:1px solid var(--green);font-weight:700}.primary:hover{background:#2d5038}.secondary{border:1px solid var(--line);background:transparent}.secondary:hover:not(:disabled){background:#eaf0e2}.full{width:100%}.button-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0 22px}.drawer details{border-top:1px solid var(--line);padding:16px 0}.drawer summary{font-size:12px;cursor:pointer;list-style:none;font-weight:700;display:flex;justify-content:space-between;align-items:center}.drawer summary::after{content:'+';color:#8c9c7c;font-size:19px;font-weight:400}.drawer details[open] summary::after{content:'−'}.detail-content{padding-top:16px}.camera-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.camera-controls button{font-size:11px;min-height:36px;padding:7px}.view-controls{display:flex;gap:6px;margin-top:10px}.view-controls .secondary{flex:1;font-size:11px;min-height:35px}.view-controls button[aria-pressed=true]{background:#e7efdd;border-color:#aabf98}.toggle-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;margin-top:13px}.toggle-row button{border:1px solid var(--line);border-radius:15px;background:#edf2e5;padding:6px 12px;font-size:10px}.history{max-height:240px;overflow:auto;font-size:12px;scrollbar-width:thin}.history table{width:100%;border-collapse:collapse}.history td,.history th{padding:8px;text-align:left}.history th{color:#91a184;font-size:10px;font-weight:400;width:38px}.history tr:nth-child(odd){background:#f0f3e9}.history td.latest{background:#e6eedb;color:#33562f;font-weight:700}.empty-history{font-size:11px;color:#91a180;line-height:1.6;padding:8px 0}.small-note{font-size:10px;line-height:1.8;color:#8c9881;margin:12px 0 0}.help-copy{font-size:12px;line-height:1.85;color:#6e7e61}.help-copy p{margin:0 0 13px}.help-copy strong{color:#455f38;font-weight:700}.drawer-footer{font-size:9px;color:#9ca790;text-align:center;margin-top:20px;letter-spacing:1px}.coach-card{flex:0 0 auto;width:min(690px,calc(100% - 32px));max-height:36vh;overflow:auto;overscroll-behavior:contain;align-self:center;margin:0 16px max(14px,env(safe-area-inset-bottom));padding:15px 19px;border:1px solid #cedcbd;border-radius:13px;background:#fffef8f2;box-shadow:0 8px 28px #39523310;scrollbar-width:thin}.coach-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.coach-label{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:1.3px;font-weight:700;color:#83996b}.coach-label::before{content:'';width:6px;height:6px;border-radius:50%;background:#a38643}.coach-card h2{font-size:14px;line-height:1.4;margin:0 0 7px;font-weight:700;color:#38552f}.coach-card p{font-size:12px;color:#657858;line-height:1.7;margin:0}.coach-more{border:0;background:transparent;font-size:10px;color:#7a8b68;white-space:nowrap;padding:3px}.coach-details{font-size:11px;color:#7e8c71;line-height:1.7;margin-top:9px;padding-top:10px;border-top:1px solid #e8eedd}.coach-details p{font-size:11px;margin:0 0 7px}.recommendations{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.recommendations:empty{display:none}.recommendation{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #ddce9e;background:#faf4df;border-radius:7px;font-size:11px;color:#7a6432}.recommendation:hover{background:#f1e4b9}.recommendation[aria-pressed=true]{outline:2px solid #b59746;outline-offset:1px}.recommendation .piece{width:21px;height:24px}.recommendation small{font-size:9px;color:#998653}.coach-card[data-kind=mistake],.coach-card[data-kind=blunder]{border-color:#d9bba0}.coach-card[data-kind=equivalent],.coach-card[data-kind=recommended]{border-color:#b7cfaa}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#2e4c37;color:#fffef2;padding:12px 19px;border-radius:9px;font-size:12px;z-index:50;max-width:calc(100% - 30px);box-shadow:0 5px 24px #25351f24;pointer-events:none;text-align:center}.game-screen.learning .toast{bottom:40vh}.board-flat{width:min(94vw,92vh);height:min(94vw,92vh);max-width:100%;max-height:100%;padding:20px;position:relative}.learning .board-flat{width:min(94vw,66vh);height:min(94vw,66vh)}.flat-squares{display:grid;grid-template-columns:repeat(8,1fr);width:100%;height:100%;border:7px solid #b79b6b;box-shadow:0 8px 30px #29422d20}.square{border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#e9e2cb;position:relative;min-height:0;min-width:0}.square.dark{background:#7c977b}.square .piece{width:87%;height:87%;max-width:85px}.square.selected{box-shadow:inset 0 0 0 3px #f8ffe4;background:#acd0a2}.square.suggested{box-shadow:inset 0 0 0 4px #c49c38}.square.check{background:#c57d6c}.square .coord{position:absolute;bottom:2px;right:3px;font-size:9px;color:#355639}.square:focus-visible{outline-offset:-3px;z-index:2}dialog{background:#fffef8;border:1px solid #d4dfc7;color:#2d4133;border-radius:15px;width:min(425px,calc(100% - 30px));padding:25px;max-height:calc(100dvh - 35px);overflow:auto;box-shadow:0 20px 80px #26382c38}dialog::backdrop{background:#203b2b55;backdrop-filter:blur(3px)}.dialog-header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.dialog-header h2{font-family:Georgia,serif;font-size:28px;font-weight:400;margin:0;letter-spacing:-.6px}.dialog-copy{font-size:12px;color:#768668;line-height:1.75;margin:0 0 17px}.field-label{display:block;font-size:11px;font-weight:700;margin:17px 0 9px}select{width:100%;border:1px solid #d7e0cb;border-radius:7px;padding:11px;background:#fafbf5;color:#49603a;font-size:12px}.dialog-actions{margin-top:22px}.color-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.color-choices button{border:1px solid var(--line);background:transparent;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px;font-size:11px}.color-choices button[aria-pressed=true]{background:#e8efdf;border-color:#91af78}.color-choices .piece{height:29px;width:29px}.warning-note{font-size:10px;color:#8f7d58;text-align:center;margin:12px 0 0}.promotion-options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.promotion-options button{border:1px solid var(--line);border-radius:8px;padding:10px 3px;background:#f0f5e8;display:grid;justify-items:center;gap:5px;font-size:10px}.promotion-options .piece{width:48px;height:48px}.promotion-options button:hover{border-color:#8aa974}.result-dialog{text-align:center}.result-dialog h2{font-family:Georgia,serif;font-size:29px;font-weight:400;margin:8px 0 12px}.result-dialog p{font-size:12px;line-height:1.8;color:#6f8261}.result-dialog .secondary{margin-top:8px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}[hidden]{display:none!important}
+@media(max-width:600px){.menu-trigger{top:max(13px,env(safe-area-inset-top));right:13px;width:44px;height:44px}.drawer{padding:21px;width:min(355px,100%)}.coach-card{width:calc(100% - 20px);margin:0 10px max(10px,env(safe-area-inset-bottom));padding:12px 14px;max-height:39vh;border-radius:10px}.coach-card h2{font-size:13px}.coach-card p{font-size:11px}.coach-heading{margin-bottom:7px}.recommendation{font-size:10px;padding:6px 8px}.coach-label{font-size:8px}.coach-more{font-size:9px}.board-flat{padding:12px}.flat-squares{border-width:5px}.square .coord{font-size:8px}.learning .board-flat{width:min(96vw,59vh);height:min(96vw,59vh)}}
+@media(max-height:480px) and (orientation:landscape){.game-screen.learning{flex-direction:row}.coach-card{align-self:center;width:280px;max-height:90vh;margin:10px 70px 10px 0;flex-shrink:0}.board-space{min-width:0}.learning .board-flat{width:min(90vh,53vw);height:min(90vh,53vw)}.coach-card p{font-size:11px}.coach-card h2{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main id="game-screen" class="game-screen">
+ <div class="board-space"><canvas id="board-3d" class="scene" width="1200" height="900" tabindex="0" role="group" aria-label="Tabuleiro de xadrez 3D. Clique para selecionar, arraste para girar. Setas e Enter também permitem jogar.">Abra o menu e escolha a vista 2D caso o tabuleiro não apareça.</canvas><div id="board-flat" class="board-flat" hidden><div id="board" class="flat-squares" role="group" aria-label="Tabuleiro de xadrez 2D"></div></div></div>
+ <section id="coach-card" class="coach-card" aria-label="Orientação do modo Aprender" hidden><div class="coach-heading"><span class="coach-label">APRENDER DURANTE A PARTIDA</span><button id="coach-more" class="coach-more" aria-expanded="false" aria-controls="coach-details">Mais detalhes</button></div><div aria-live="polite" aria-atomic="true"><h2 id="coach-title"></h2><p id="coach-text"></p></div><div id="recommendations" class="recommendations" aria-label="Jogadas sugeridas"></div><div id="coach-details" class="coach-details" hidden></div></section>
+</main>
+<button id="menu-open" class="menu-trigger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-drawer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<div id="menu-backdrop" class="drawer-backdrop" hidden></div>
+<aside id="menu-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu da partida" hidden>
+ <div class="drawer-header"><div class="wordmark">CASA 64<small>XADREZ EM TRÊS DIMENSÕES</small></div><button id="menu-close" class="icon-button" aria-label="Fechar menu"><span data-icon="close"></span></button></div>
+ <div class="status-box"><h1 id="status-title" class="status-title">Sua vez.</h1><p id="status-text" class="status-text"></p></div>
+ <span class="section-label">COMO VOCÊ QUER JOGAR?</span>
+ <div class="mode-switch" aria-label="Modo de jogo"><button data-experience="free" aria-pressed="true"><span data-icon="flag"></span> Livre</button><button data-experience="learn" aria-pressed="false"><span data-icon="bulb"></span> Aprender</button></div>
+ <p id="mode-description" class="mode-description">Partida normal, sem sugestões ou explicações. As regras do xadrez continuam valendo.</p>
+ <button id="new-button" class="primary full"><span data-icon="plus"></span> Nova partida</button>
+ <div class="button-row"><button id="undo-button" class="secondary" disabled><span data-icon="undo"></span> Desfazer</button><button id="flip-button" class="secondary"><span data-icon="flip"></span> Virar mesa</button></div>
+ <details><summary>Tabuleiro e câmera</summary><div class="detail-content"><div class="camera-controls"><button id="camera-left" class="secondary">↶ Girar</button><button id="camera-reset" class="secondary">Centralizar</button><button id="camera-right" class="secondary">Girar ↷</button><button id="camera-out" class="secondary">− Zoom</button><button id="camera-up" class="secondary">Vista alta</button><button id="camera-in" class="secondary">+ Zoom</button></div><div class="view-controls"><button id="view-3d" class="secondary" aria-pressed="true">Peças 3D</button><button id="view-2d" class="secondary" aria-pressed="false">Vista 2D</button></div><div class="toggle-row"><span>Som das peças</span><button id="sound-button" aria-pressed="false">Desligado</button></div><p class="small-note">Arraste o tabuleiro para girar. Role ou use os botões para aproximar e afastar.</p></div></details>
+ <details><summary>Histórico da partida <span id="history-count">0</span></summary><div class="detail-content"><div id="history" class="history"><p class="empty-history">Os lances aparecem aqui depois que a partida começa.</p></div><button id="export-button" class="secondary full" disabled><span data-icon="download"></span> Baixar partida em PGN</button><p id="save-status" class="small-note"></p></div></details>
+ <details><summary>Como usar</summary><div class="detail-content help-copy"><p><strong>Jogar:</strong> clique na peça e depois na casa de destino. Arrastar a mesa gira a câmera. No teclado, use setas e Enter; Esc cancela a seleção.</p><p><strong>Livre:</strong> sem recomendações, marcações de jogadas possíveis ou explicações educativas.</p><p><strong>Aprender:</strong> as setas douradas sugerem jogadas. Você pode escolher qualquer lance legal. A análise compara sua escolha com as sugestões e explica riscos ou alternativas semelhantes, sem parar a partida.</p><p>As recomendações vêm de uma análise local curta. Elas podem deixar passar combinações mais longas.</p><p>Roque, promoção e en passant estão incluídos. Empates por afogamento, material insuficiente reconhecido, repetição tripla e 50 lances sem captura ou movimento de peão são automáticos.</p><p>No histórico: K = rei, Q = dama, R = torre, B = bispo e N = cavalo.</p></div></details>
+ <div class="drawer-footer">SEM RELÓGIO · FUNCIONA SEM INTERNET</div>
+</aside>
+<dialog id="new-dialog" aria-labelledby="new-title"><div class="dialog-header"><h2 id="new-title">Nova partida.</h2><button class="icon-button" data-close="new-dialog" aria-label="Fechar"><span data-icon="close"></span></button></div><p class="dialog-copy">Escolha o adversário. Você pode alternar entre Livre e Aprender a qualquer momento pelo menu.</p><label class="field-label" for="opponent-select">Adversário</label><select id="opponent-select"><option value="computer">Computador</option><option value="local">Outra pessoa, neste dispositivo</option></select><div id="computer-options"><label class="field-label" for="level-select">Nível do computador</label><select id="level-select"><option value="easy">Iniciante</option><option value="medium">Casual</option><option value="hard">Desafio</option></select><span class="field-label">Suas peças</span><div class="color-choices"><button data-color="w" aria-pressed="true"></button><button data-color="b" aria-pressed="false"></button><button data-color="random" aria-pressed="false"></button></div></div><div class="dialog-actions"><button id="start-button" class="primary full">Começar partida <span data-icon="arrow"></span></button><p id="new-warning" class="warning-note" hidden>A partida atual será substituída.</p></div></dialog>
+<dialog id="promotion-dialog" aria-labelledby="promotion-title"><div class="dialog-header"><h2 id="promotion-title">Promova seu peão.</h2></div><p class="dialog-copy">Escolha a peça que ocupará a última fileira.</p><div id="promotion-options" class="promotion-options"></div><button id="cancel-promotion" class="secondary full" style="margin-top:17px">Voltar ao tabuleiro</button></dialog>
+<dialog id="result-dialog" class="result-dialog" aria-labelledby="result-title"><h2 id="result-title"></h2><p id="result-text"></p><button id="play-again" class="primary full">Jogar novamente</button><button class="secondary full" data-close="result-dialog">Ver tabuleiro</button></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<span id="game-announcement" class="sr-only" role="status" aria-live="polite"></span>
+<noscript>Ative o JavaScript no navegador para jogar.</noscript>
+<script id="engine-source">/* Self-contained chess rules. Board indices run from a8 (0) to h1 (63). */
+(function (root) {
+  'use strict';
+  const START = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+  const FILES = 'abcdefgh';
+  const KNIGHT = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
+  const DIAGONAL = [[-1,-1],[-1,1],[1,-1],[1,1]];
+  const STRAIGHT = [[-1,0],[1,0],[0,-1],[0,1]];
+  const KING = DIAGONAL.concat(STRAIGHT);
+  const color = piece => piece && (piece === piece.toUpperCase() ? 'w' : 'b');
+  const opposite = side => side === 'w' ? 'b' : 'w';
+  const squareName = index => FILES[index % 8] + (8 - Math.floor(index / 8));
+  const squareIndex = square => typeof square === 'number' ? square : typeof square === 'string' && /^[a-h][1-8]$/.test(square) ? (8 - Number(square[1])) * 8 + FILES.indexOf(square[0]) : -1;
+
+  class ChessEngine {
+    constructor(fen = START) { this.load(fen); }
+
+    load(fen = START) {
+      const parts = String(fen).trim().split(/\s+/);
+      const ranks = parts[0].split('/');
+      const board = [];
+      if (ranks.length !== 8 || !['w','b'].includes(parts[1])) throw new Error('FEN inválida.');
+      for (const rank of ranks) {
+        let count = 0;
+        for (const token of rank) {
+          if (/^[1-8]$/.test(token)) { const n = Number(token); board.push(...Array(n).fill(null)); count += n; }
+          else if (/^[pnbrqkPNBRQK]$/.test(token)) { board.push(token); count++; }
+          else throw new Error('Peça inválida na FEN.');
+        }
+        if (count !== 8) throw new Error('Fileira inválida na FEN.');
+      }
+      if (board.filter(p => p === 'K').length !== 1 || board.filter(p => p === 'k').length !== 1) throw new Error('A posição precisa de um rei de cada cor.');
+      const rights = parts[2] || '-';
+      if (!/^(?:-|K?Q?k?q?)$/.test(rights)) throw new Error('Roque inválido na FEN.');
+      const ep = parts[3] || '-';
+      if (ep !== '-' && !/^[a-h][36]$/.test(ep)) throw new Error('En passant inválido na FEN.');
+      const halfmove = parts[4] === undefined ? 0 : Number(parts[4]);
+      const fullmove = parts[5] === undefined ? 1 : Number(parts[5]);
+      if (!Number.isInteger(halfmove) || halfmove < 0 || !Number.isInteger(fullmove) || fullmove < 1) throw new Error('Contadores inválidos na FEN.');
+      this.board = board;
+      this.turn = parts[1];
+      this.castling = rights === '-' ? '' : rights;
+      this.epSquare = ep === '-' ? -1 : squareIndex(ep);
+      this.halfmove = halfmove;
+      this.fullmove = fullmove;
+      this.history = [];
+      this._stack = [];
+      const key = this._positionKey();
+      this._positionKeys = [key];
+      this._repetitions = new Map([[key, 1]]);
+      return this;
+    }
+
+    fen() {
+      const rows = [];
+      for (let row = 0; row < 8; row++) {
+        let line = '', empty = 0;
+        for (let col = 0; col < 8; col++) {
+          const piece = this.board[row * 8 + col];
+          if (!piece) empty++;
+          else { if (empty) line += empty; empty = 0; line += piece; }
+        }
+        if (empty) line += empty;
+        rows.push(line);
+      }
+      return `${rows.join('/')} ${this.turn} ${this.castling || '-'} ${this.epSquare < 0 ? '-' : squareName(this.epSquare)} ${this.halfmove} ${this.fullmove}`;
+    }
+
+    _positionKey() {
+      const parts = this.fen().split(' ');
+      // An en-passant square distinguishes positions only if a legal capture exists.
+      if (this.epSquare >= 0 && !this.moves().some(move => move.enPassant)) parts[3] = '-';
+      return parts.slice(0, 4).join(' ');
+    }
+
+    _attacked(square, by) {
+      const row = Math.floor(square / 8), col = square % 8;
+      const pawnRow = row + (by === 'w' ? 1 : -1);
+      const pawn = by === 'w' ? 'P' : 'p';
+      if (pawnRow >= 0 && pawnRow < 8) {
+        if (col > 0 && this.board[pawnRow * 8 + col - 1] === pawn) return true;
+        if (col < 7 && this.board[pawnRow * 8 + col + 1] === pawn) return true;
+      }
+      const knight = by === 'w' ? 'N' : 'n';
+      for (const [dr, dc] of KNIGHT) {
+        const r = row + dr, c = col + dc;
+        if (r >= 0 && r < 8 && c >= 0 && c < 8 && this.board[r * 8 + c] === knight) return true;
+      }
+      for (const [dr, dc] of KING) {
+        let r = row + dr, c = col + dc, distance = 1;
+        while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+          const piece = this.board[r * 8 + c];
+          if (piece) {
+            if (color(piece) === by) {
+              const kind = piece.toLowerCase();
+              if (kind === 'q' || (kind === 'k' && distance === 1) || (dr && dc ? kind === 'b' : kind === 'r')) return true;
+            }
+            break;
+          }
+          r += dr; c += dc; distance++;
+        }
+      }
+      return false;
+    }
+
+    inCheck(side = this.turn) {
+      const king = this.board.indexOf(side === 'w' ? 'K' : 'k');
+      return king < 0 || this._attacked(king, opposite(side));
+    }
+
+    _pseudoMoves(onlySquare) {
+      const moves = [], side = this.turn;
+      const add = (from, to, extra) => {
+        const piece = this.board[from];
+        const captured = extra && extra.enPassant ? (side === 'w' ? 'p' : 'P') : this.board[to];
+        if (captured && captured.toLowerCase() === 'k') return;
+        const move = {from, to, piece};
+        if (captured) move.captured = captured;
+        if (extra) Object.assign(move, extra);
+        if (piece.toLowerCase() === 'p' && (to < 8 || to >= 56)) {
+          for (const promotion of ['q','r','b','n']) moves.push({...move, promotion});
+        } else moves.push(move);
+      };
+      for (let from = 0; from < 64; from++) {
+        if (onlySquare !== undefined && from !== onlySquare) continue;
+        const piece = this.board[from];
+        if (!piece || color(piece) !== side) continue;
+        const kind = piece.toLowerCase(), row = Math.floor(from / 8), col = from % 8;
+        if (kind === 'p') {
+          const dr = side === 'w' ? -1 : 1, nextRow = row + dr;
+          if (nextRow < 0 || nextRow > 7) continue;
+          const to = nextRow * 8 + col;
+          if (!this.board[to]) {
+            add(from, to);
+            const two = (row + 2 * dr) * 8 + col;
+            if (row === (side === 'w' ? 6 : 1) && !this.board[two]) add(from, two);
+          }
+          for (const dc of [-1,1]) {
+            const c = col + dc;
+            if (c < 0 || c > 7) continue;
+            const target = nextRow * 8 + c;
+            if (this.board[target] && color(this.board[target]) !== side) add(from, target);
+            else if (target === this.epSquare && !this.board[target] && row === (side === 'w' ? 3 : 4) && this.board[row * 8 + c] === (side === 'w' ? 'p' : 'P')) add(from, target, {enPassant:true});
+          }
+        } else {
+          const directions = kind === 'n' ? KNIGHT : kind === 'b' ? DIAGONAL : kind === 'r' ? STRAIGHT : KING;
+          for (const [dr, dc] of directions) {
+            let r = row + dr, c = col + dc;
+            while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+              const target = r * 8 + c, occupant = this.board[target];
+              if (color(occupant) === side) break;
+              add(from, target);
+              if (occupant || kind === 'n' || kind === 'k') break;
+              r += dr; c += dc;
+            }
+          }
+          if (kind === 'k' && from === (side === 'w' ? 60 : 4) && !this.inCheck(side)) {
+            const enemy = opposite(side), rook = side === 'w' ? 'R' : 'r';
+            if (this.castling.includes(side === 'w' ? 'K' : 'k') && this.board[from + 3] === rook && !this.board[from + 1] && !this.board[from + 2] && !this._attacked(from + 1, enemy) && !this._attacked(from + 2, enemy)) add(from, from + 2, {castle:'k'});
+            if (this.castling.includes(side === 'w' ? 'Q' : 'q') && this.board[from - 4] === rook && !this.board[from - 1] && !this.board[from - 2] && !this.board[from - 3] && !this._attacked(from - 1, enemy) && !this._attacked(from - 2, enemy)) add(from, from - 2, {castle:'q'});
+          }
+        }
+      }
+      return moves;
+    }
+
+    moves(options = {}) {
+      const onlySquare = options.square === undefined ? undefined : squareIndex(options.square);
+      const legal = [], side = this.turn;
+      for (const move of this._pseudoMoves(onlySquare)) {
+        const saved = this._apply(move);
+        if (!this.inCheck(side)) legal.push(move);
+        this._restore(saved);
+      }
+      return legal;
+    }
+
+    // Fast, trusted legal move application for search; intentionally leaves history alone.
+    _apply(move) {
+      const saved = {board:this.board.slice(), turn:this.turn, castling:this.castling, epSquare:this.epSquare, halfmove:this.halfmove, fullmove:this.fullmove};
+      const piece = this.board[move.from], side = this.turn;
+      this.board[move.from] = null;
+      this.board[move.to] = move.promotion ? (side === 'w' ? move.promotion.toUpperCase() : move.promotion.toLowerCase()) : piece;
+      if (move.enPassant) this.board[move.to + (side === 'w' ? 8 : -8)] = null;
+      if (move.castle) {
+        const rookFrom = move.from + (move.castle === 'k' ? 3 : -4);
+        const rookTo = move.from + (move.castle === 'k' ? 1 : -1);
+        this.board[rookTo] = this.board[rookFrom];
+        this.board[rookFrom] = null;
+      }
+      if (piece === 'K') this.castling = this.castling.replace(/[KQ]/g, '');
+      if (piece === 'k') this.castling = this.castling.replace(/[kq]/g, '');
+      for (const [square, right] of [[0,'q'],[7,'k'],[56,'Q'],[63,'K']]) {
+        if (move.from === square || move.to === square) this.castling = this.castling.replace(right, '');
+      }
+      this.epSquare = piece.toLowerCase() === 'p' && Math.abs(move.to - move.from) === 16 ? (move.to + move.from) / 2 : -1;
+      this.halfmove = piece.toLowerCase() === 'p' || move.captured ? 0 : this.halfmove + 1;
+      if (side === 'b') this.fullmove++;
+      this.turn = opposite(side);
+      return saved;
+    }
+
+    _restore(saved) {
+      this.board = saved.board;
+      this.turn = saved.turn;
+      this.castling = saved.castling;
+      this.epSquare = saved.epSquare;
+      this.halfmove = saved.halfmove;
+      this.fullmove = saved.fullmove;
+    }
+
+    move(input) {
+      if (!input || typeof input !== 'object') return null;
+      const from = squareIndex(input.from), to = squareIndex(input.to);
+      const promotion = input.promotion ? String(input.promotion).toLowerCase() : 'q';
+      const legal = this.moves();
+      const move = legal.find(m => m.from === from && m.to === to && (!m.promotion || m.promotion === promotion));
+      if (!move) return null;
+      let san;
+      if (move.castle) san = move.castle === 'k' ? 'O-O' : 'O-O-O';
+      else {
+        const kind = move.piece.toUpperCase();
+        san = kind === 'P' ? '' : kind;
+        if (kind !== 'P') {
+          const others = legal.filter(m => m.from !== from && m.to === to && m.piece === move.piece);
+          if (others.length) {
+            if (others.every(m => m.from % 8 !== from % 8)) san += FILES[from % 8];
+            else if (others.every(m => Math.floor(m.from / 8) !== Math.floor(from / 8))) san += 8 - Math.floor(from / 8);
+            else san += squareName(from);
+          }
+        } else if (move.captured) san += FILES[from % 8];
+        if (move.captured) san += 'x';
+        san += squareName(to);
+        if (move.promotion) san += '=' + move.promotion.toUpperCase();
+      }
+      const saved = this._apply(move);
+      if (this.inCheck()) san += this.moves().length ? '+' : '#';
+      const entry = {...move, san, color:saved.turn};
+      this.history.push(entry);
+      this._stack.push(saved);
+      const key = this._positionKey();
+      this._positionKeys.push(key);
+      this._repetitions.set(key, (this._repetitions.get(key) || 0) + 1);
+      return entry;
+    }
+
+    undo() {
+      if (!this._stack.length) return null;
+      const key = this._positionKeys.pop(), count = this._repetitions.get(key);
+      if (count <= 1) this._repetitions.delete(key);
+      else this._repetitions.set(key, count - 1);
+      this._restore(this._stack.pop());
+      return this.history.pop();
+    }
+
+    _insufficientMaterial() {
+      const material = [];
+      for (let i = 0; i < 64; i++) {
+        const piece = this.board[i];
+        if (piece && piece.toLowerCase() !== 'k') material.push({piece:piece.toLowerCase(), square:i});
+      }
+      if (!material.length) return true;
+      if (material.length === 1 && ['b','n'].includes(material[0].piece)) return true;
+      if (material.every(m => m.piece === 'b')) {
+        const parity = m => (Math.floor(m.square / 8) + m.square % 8) % 2;
+        return material.every(m => parity(m) === parity(material[0]));
+      }
+      return false;
+    }
+
+    status() {
+      const check = this.inCheck();
+      let reason = null, winner = null;
+      if (!this.moves().length) {
+        reason = check ? 'checkmate' : 'stalemate';
+        if (check) winner = opposite(this.turn);
+      } else if (this._insufficientMaterial()) reason = 'insufficient';
+      else if ((this._repetitions.get(this._positionKey()) || 0) >= 3) reason = 'repetition';
+      else if (this.halfmove >= 100) reason = 'fifty';
+      return {over:reason !== null, check, winner, reason};
+    }
+
+    clone() {
+      const result = Object.create(ChessEngine.prototype);
+      result.board = this.board.slice();
+      result.turn = this.turn;
+      result.castling = this.castling;
+      result.epSquare = this.epSquare;
+      result.halfmove = this.halfmove;
+      result.fullmove = this.fullmove;
+      result.history = this.history.map(entry => ({...entry}));
+      result._stack = this._stack.map(state => ({...state, board:state.board.slice()}));
+      result._positionKeys = this._positionKeys.slice();
+      result._repetitions = new Map(this._repetitions);
+      return result;
+    }
+  }
+  ChessEngine.START_FEN = START;
+  ChessEngine.squareName = squareName;
+  ChessEngine.squareIndex = squareIndex;
+  ChessEngine.color = color;
+  root.ChessEngine = ChessEngine;
+  if (typeof module === 'object' && module.exports) module.exports = ChessEngine;
+})(typeof globalThis !== 'undefined' ? globalThis : window);
+</script>
+<script id="ai-source">/* A small, local chess opponent. No network calls or external dependencies. */
+(function (root) {
+  'use strict';
+
+  const VALUE = { p: 100, n: 320, b: 335, r: 500, q: 900, k: 20000 };
+  const MATE = 100000;
+  const LIMITS = {
+    easy: { depth: 2, milliseconds: 200, quietDepth: 0 },
+    medium: { depth: 3, milliseconds: 500, quietDepth: 3 },
+    hard: { depth: 4, milliseconds: 1000, quietDepth: 4 }
+  };
+  const now = () => typeof performance !== 'undefined' ? performance.now() : Date.now();
+  const color = piece => piece === piece.toUpperCase() ? 'w' : 'b';
+
+  function evaluate(engine) {
+    const board = engine.board;
+    const pawnFiles = { w: new Array(8).fill(0), b: new Array(8).fill(0) };
+    const bishops = { w: 0, b: 0 };
+    let nonPawnMaterial = 0;
+    let result = 0;
+    for (let index = 0; index < 64; index++) {
+      const piece = board[index];
+      if (!piece) continue;
+      const side = color(piece), type = piece.toLowerCase();
+      if (type === 'p') pawnFiles[side][index % 8]++;
+      else if (type !== 'k') nonPawnMaterial += VALUE[type];
+      if (type === 'b') bishops[side]++;
+    }
+    const endgame = nonPawnMaterial < 2600;
+    for (let index = 0; index < 64; index++) {
+      const piece = board[index];
+      if (!piece) continue;
+      const side = color(piece), type = piece.toLowerCase();
+      const sign = side === 'w' ? 1 : -1;
+      const row = index >> 3, file = index % 8;
+      const advancement = side === 'w' ? 6 - row : row - 1;
+      const center = 7 - Math.abs(file - 3.5) - Math.abs(row - 3.5);
+      const ownPawns = pawnFiles[side];
+      const enemyPawns = pawnFiles[side === 'w' ? 'b' : 'w'];
+      let score = VALUE[type];
+
+      if (type === 'p') {
+        score += advancement * (endgame ? 13 : 8);
+        score += 4 * (3.5 - Math.abs(file - 3.5));
+        if (ownPawns[file] > 1) score -= 13;
+        if (!(ownPawns[file - 1] || ownPawns[file + 1])) score -= 12;
+        // This deliberately cheap passed-pawn estimate is refined by search.
+        if (!(enemyPawns[file - 1] || enemyPawns[file] || enemyPawns[file + 1])) {
+          score += 14 + Math.max(0, advancement) * (endgame ? 10 : 5);
+        }
+      } else if (type === 'n') {
+        score += center * 10;
+        if (row === (side === 'w' ? 7 : 0)) score -= 17;
+        if (file === 0 || file === 7) score -= 15;
+      } else if (type === 'b') {
+        score += center * 5;
+        if (row === (side === 'w' ? 7 : 0)) score -= 12;
+      } else if (type === 'r') {
+        if (!ownPawns[file]) score += enemyPawns[file] ? 12 : 22;
+        if (row === (side === 'w' ? 1 : 6)) score += 23;
+      } else if (type === 'q') {
+        score += center * 2;
+        // Avoid moving the queen too early while minor pieces remain at home.
+        if (!endgame && row !== (side === 'w' ? 7 : 0)) {
+          const home = side === 'w' ? 56 : 0;
+          for (const fileIndex of [1, 2, 5, 6]) {
+            const homePiece = board[home + fileIndex];
+            if (homePiece && color(homePiece) === side && /[bn]/i.test(homePiece)) score -= 8;
+          }
+        }
+      } else if (type === 'k') {
+        if (endgame) score += center * 12;
+        else {
+          score -= center * 9;
+          const backRank = side === 'w' ? 7 : 0;
+          if (row === backRank && (file === 6 || file === 2)) score += 35;
+          const front = row + (side === 'w' ? -1 : 1);
+          if (front >= 0 && front < 8) {
+            for (let shieldFile = Math.max(0, file - 1); shieldFile <= Math.min(7, file + 1); shieldFile++) {
+              if (board[front * 8 + shieldFile] === (side === 'w' ? 'P' : 'p')) score += 13;
+            }
+          }
+        }
+      }
+      result += sign * score;
+    }
+    if (bishops.w >= 2) result += 28;
+    if (bishops.b >= 2) result -= 28;
+    return engine.turn === 'w' ? result : -result;
+  }
+
+  function sameMove(a, b) {
+    return a && b && a.from === b.from && a.to === b.to && a.promotion === b.promotion;
+  }
+
+  function movePriority(move, board, preferred) {
+    if (sameMove(move, preferred)) return 1000000;
+    const captured = move.captured || board[move.to] || (move.enPassant ? 'p' : null);
+    let score = captured ? 10000 + 10 * VALUE[captured.toLowerCase()] - VALUE[move.piece.toLowerCase()] : 0;
+    if (move.promotion) score += 9000 + VALUE[move.promotion.toLowerCase()];
+    if (move.castle) score += 80;
+    const file = move.to % 8, row = move.to >> 3;
+    return score + 7 - Math.abs(file - 3.5) - Math.abs(row - 3.5);
+  }
+
+  function orderedMoves(moves, board, preferred) {
+    return moves.map((move, index) => ({ move, index, priority: movePriority(move, board, preferred) }))
+      .sort((a, b) => b.priority - a.priority || a.index - b.index)
+      .map(entry => entry.move);
+  }
+
+  /**
+   * Return a legal move, or null if the game is over. The caller's engine is
+   * unchanged. Difficulty is a search limit, not a playing-strength rating.
+   */
+  function chooseChessMove(input, level) {
+    if (!input || typeof input.moves !== 'function') throw new TypeError('Expected a ChessEngine instance.');
+    const limits = LIMITS[level] || LIMITS.medium;
+    const engine = typeof input.clone === 'function' ? input.clone() : input;
+    const state = typeof engine.status === 'function' ? engine.status() : engine.status;
+    if (state && state.over) return null;
+    const legal = engine.moves();
+    if (!legal.length) return null;
+    let bestMove = orderedMoves(legal, engine.board)[0];
+    if (legal.length === 1) return publicMove(bestMove);
+
+    const fast = typeof engine._apply === 'function' && typeof engine._restore === 'function';
+    const deadline = now() + limits.milliseconds;
+    const timeout = {};
+    let nodes = 0;
+    const apply = move => {
+      if (fast) return engine._apply(move);
+      const result = engine.move(move);
+      if (result === false || result === null) throw new Error('Search could not apply a legal move.');
+      return null;
+    };
+    const restore = snapshot => fast ? engine._restore(snapshot) : engine.undo();
+    const checkTime = () => {
+      if ((nodes++ & 31) === 0 && now() >= deadline) throw timeout;
+    };
+
+    function quiet(alpha, beta, remaining, ply, knownMoves) {
+      checkTime();
+      const moves = knownMoves || engine.moves();
+      const check = engine.inCheck();
+      if (!moves.length) return check ? -MATE + ply : 0;
+      const standPat = evaluate(engine);
+      if (remaining <= 0) return standPat;
+      if (!check) {
+        if (standPat >= beta) return standPat;
+        if (standPat > alpha) alpha = standPat;
+      }
+      const candidates = check ? moves : moves.filter(move => move.captured || move.enPassant || move.promotion || engine.board[move.to]);
+      for (const move of orderedMoves(candidates, engine.board)) {
+        const snapshot = apply(move);
+        let score;
+        try { score = -quiet(-beta, -alpha, remaining - 1, ply + 1); }
+        finally { restore(snapshot); }
+        if (score >= beta) return score;
+        if (score > alpha) alpha = score;
+      }
+      return alpha;
+    }
+
+    function search(depth, alpha, beta, ply) {
+      checkTime();
+      const moves = engine.moves();
+      if (!moves.length) return engine.inCheck() ? -MATE + ply : 0;
+      if (depth <= 0) return quiet(alpha, beta, limits.quietDepth, ply, moves);
+      for (const move of orderedMoves(moves, engine.board)) {
+        const snapshot = apply(move);
+        let score;
+        try { score = -search(depth - 1, -beta, -alpha, ply + 1); }
+        finally { restore(snapshot); }
+        if (score >= beta) return score;
+        if (score > alpha) alpha = score;
+      }
+      return alpha;
+    }
+
+    // Only a completed iteration replaces the previous result, so a deadline
+    // cannot accidentally favor a move examined with a shallower search.
+    for (let depth = 1; depth <= limits.depth; depth++) {
+      let candidate = bestMove;
+      let bestScore = -Infinity;
+      let alpha = -MATE;
+      try {
+        for (const move of orderedMoves(legal, engine.board, bestMove)) {
+          if (now() >= deadline) throw timeout;
+          const snapshot = apply(move);
+          let score;
+          try { score = -search(depth - 1, -MATE, -alpha, 1); }
+          finally { restore(snapshot); }
+          if (score > bestScore) { bestScore = score; candidate = move; }
+          if (score > alpha) alpha = score;
+        }
+        bestMove = candidate;
+        if (bestScore >= MATE - 100) break;
+      } catch (error) {
+        if (error !== timeout) throw error;
+        break;
+      }
+    }
+    return publicMove(bestMove);
+  }
+
+  function publicMove(move) {
+    const result = { from: move.from, to: move.to };
+    if (move.promotion) result.promotion = move.promotion;
+    return result;
+  }
+
+  root.chooseChessMove = chooseChessMove;
+  if (typeof module === 'object' && module.exports) {
+    module.exports = chooseChessMove;
+    module.exports.chooseChessMove = chooseChessMove;
+  }
+})(typeof globalThis !== 'undefined' ? globalThis : self);
+</script>
+<script id="renderer-source">/* Casa64: dependency-free, geometric 3D chess renderer. */
+(function (root) {
+'use strict';
+const TAU=Math.PI*2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const norm=a=>{let d=Math.hypot(...a)||1;return a.map(v=>v/d);};
+const light=norm([-.65,1,.8]);
+const rgba=(c,f=1,a=1)=>`rgba(${c.map(v=>Math.round(clamp(v*f,0,255))).join(',')},${a})`;
+const ivory=[242,235,213],forest=[48,85,66];
+const material={ivory,forest,ivoryDetail:[127,112,80],forestDetail:[21,42,32]};
+function triangle(a,b,c,out,detail=false){out.push({v:[a,b,c],detail});}
+function quad(a,b,c,d,out,detail=false){triangle(a,b,c,out,detail);triangle(a,c,d,out,detail);}
+function lathe(profile,out,n=12){
+  for(let j=0;j<profile.length-1;j++)for(let k=0;k<n;k++){
+    const a=k*TAU/n,b=(k+1)*TAU/n,p=profile[j],q=profile[j+1];
+    quad([Math.cos(a)*p[1],p[0],Math.sin(a)*p[1]],[Math.cos(a)*q[1],q[0],Math.sin(a)*q[1]],[Math.cos(b)*q[1],q[0],Math.sin(b)*q[1]],[Math.cos(b)*p[1],p[0],Math.sin(b)*p[1]],out);
+  }
+}
+function ellipsoid(cx,cy,cz,rx,ry,rz,out,detail=false,segments=10,rings=6){
+  for(let j=0;j<rings;j++)for(let k=0;k<segments;k++){
+    const p=j*Math.PI/rings,q=(j+1)*Math.PI/rings,a=k*TAU/segments,b=(k+1)*TAU/segments;
+    const v=(t,s)=>[cx+rx*Math.sin(t)*Math.cos(s),cy+ry*Math.cos(t),cz+rz*Math.sin(t)*Math.sin(s)];
+    quad(v(p,a),v(p,b),v(q,b),v(q,a),out,detail);
+  }
+}
+function box(x1,y1,z1,x2,y2,z2,out,detail=false){
+  const a=[x1,y1,z1],b=[x2,y1,z1],c=[x2,y2,z1],d=[x1,y2,z1],e=[x1,y1,z2],f=[x2,y1,z2],g=[x2,y2,z2],h=[x1,y2,z2];
+  quad(a,d,c,b,out,detail);quad(e,f,g,h,out,detail);quad(d,h,g,c,out,detail);quad(a,b,f,e,out,detail);quad(a,e,h,d,out,detail);quad(b,c,g,f,out,detail);
+}
+function inTri(p,a,b,c){const f=(p,a,b)=>(p[0]-b[0])*(a[1]-b[1])-(a[0]-b[0])*(p[1]-b[1]);let d1=f(p,a,b),d2=f(p,b,c),d3=f(p,c,a);return !((d1<0||d2<0||d3<0)&&(d1>0||d2>0||d3>0));}
+function extrude(poly,half,out){
+  let area=0;for(let i=0;i<poly.length;i++){let a=poly[i],b=poly[(i+1)%poly.length];area+=a[0]*b[1]-b[0]*a[1];}if(area<0)poly=poly.slice().reverse();
+  const remaining=poly.map((_,i)=>i),tris=[];let guard=0;
+  while(remaining.length>2&&guard++<100){let found=false;for(let k=0;k<remaining.length;k++){
+    let ai=remaining[(k+remaining.length-1)%remaining.length],bi=remaining[k],ci=remaining[(k+1)%remaining.length],a=poly[ai],b=poly[bi],c=poly[ci];
+    if((b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0])<=0)continue;
+    if(remaining.some(i=>i!==ai&&i!==bi&&i!==ci&&inTri(poly[i],a,b,c)))continue;
+    tris.push([ai,bi,ci]);remaining.splice(k,1);found=true;break;
+  }if(!found)break;}
+  for(const t of tris){triangle(...t.map(i=>[-half,poly[i][1],poly[i][0]]),out);triangle(...t.map(i=>[half,poly[i][1],poly[i][0]]).reverse(),out);}
+  for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length];quad([-half,a[1],a[0]],[half,a[1],a[0]],[half,b[1],b[0]],[-half,b[1],b[0]],out);}
+}
+const models={};
+function makeModel(type){
+  const out=[];
+  lathe([[0,0],[0,.30],[.04,.36],[.10,.375],[.15,.35],[.23,.28],[.26,.24]],out);
+  if(type==='p'){
+    lathe([[.24,.23],[.31,.19],[.49,.125],[.57,.15],[.62,.20],[.68,.20],[.70,.145]],out);
+    ellipsoid(0,.88,0,.235,.235,.235,out);
+  }else if(type==='r'){
+    lathe([[.24,.25],[.32,.23],[.85,.235],[.90,.29],[.95,.335],[1.08,.335],[1.08,0]],out);
+    for(let k=0;k<6;k++){const a=k*TAU/6-.19,b=a+.38,r=.335,q=.20;
+      const p=(angle,rad,y)=>[Math.cos(angle)*rad,y,Math.sin(angle)*rad];
+      quad(p(a,r,1.07),p(a,r,1.29),p(b,r,1.29),p(b,r,1.07),out);quad(p(a,q,1.07),p(b,q,1.07),p(b,q,1.29),p(a,q,1.29),out);quad(p(a,q,1.29),p(b,q,1.29),p(b,r,1.29),p(a,r,1.29),out);quad(p(a,q,1.07),p(a,q,1.29),p(a,r,1.29),p(a,r,1.07),out);quad(p(b,q,1.07),p(b,r,1.07),p(b,r,1.29),p(b,q,1.29),out);
+    }
+    lathe([[1.085,0],[1.085,.17]],out);
+  }else if(type==='n'){
+    lathe([[.24,.24],[.32,.25],[.38,.21]],out);
+    extrude([[.23,.34],[.28,.64],[.24,1.04],[.12,1.27],[.07,1.48],[-.045,1.33],[-.13,1.46],[-.16,1.20],[-.36,1.04],[-.42,.91],[-.37,.80],[-.23,.80],[-.06,.92],[-.085,.62],[-.22,.37]],.145,out);
+    ellipsoid(.15,1.16,-.135,.018,.035,.032,out,true,8,4);ellipsoid(-.15,1.16,-.135,.018,.035,.032,out,true,8,4);
+    // Faceted mane follows the back of the horse, visible from either side.
+    for(let j=0;j<5;j++)box(-.15,.63+j*.105,.245-j*.017,.15,.68+j*.105,.27-j*.017,out,true);
+  }else if(type==='b'){
+    lathe([[.24,.24],[.34,.19],[.73,.13],[.81,.23],[.86,.26],[.91,.24],[.94,.13],[1.02,.205],[1.15,.235],[1.30,.17],[1.43,.035],[1.44,0]],out);
+    // Incised diagonal mark on the mitre, on both facing surfaces.
+    for(const sign of [-1,1])quad([-.10,1.055,sign*.20],[-.058,1.043,sign*.218],[.095,1.28,sign*.162],[.054,1.30,sign*.167],out,true);
+    ellipsoid(0,1.47,0,.055,.055,.055,out,false,8,4);
+  }else if(type==='q'){
+    lathe([[.24,.25],[.34,.205],[.76,.135],[.96,.21],[1.0,.27],[1.05,.27],[1.09,.21],[1.20,.28]],out);
+    for(let k=0;k<8;k++){
+      const a=k*TAU/8,b=(k+1)*TAU/8,m=(a+b)/2;
+      const p=(t,r,y)=>[Math.cos(t)*r,y,Math.sin(t)*r];
+      triangle(p(a,.28,1.20),p(m,.35,1.45),p(b,.28,1.20),out);triangle(p(b,.235,1.2),p(m,.28,1.40),p(a,.235,1.2),out);
+      quad(p(a,.28,1.20),p(a,.235,1.2),p(m,.28,1.40),p(m,.35,1.45),out);quad(p(m,.35,1.45),p(m,.28,1.40),p(b,.235,1.2),p(b,.28,1.2),out);
+      ellipsoid(Math.cos(m)*.35,1.45,Math.sin(m)*.35,.048,.048,.048,out,false,6,3);
+    }
+    ellipsoid(0,1.36,0,.10,.13,.10,out);
+  }else if(type==='k'){
+    lathe([[.24,.26],[.36,.215],[.81,.155],[1.0,.23],[1.055,.29],[1.11,.29],[1.15,.23],[1.25,.21],[1.28,0]],out);
+    box(-.068,1.25,-.066,.068,1.79,.066,out);box(-.23,1.53,-.066,.23,1.665,.066,out);
+  }
+  // Normals are retained in model space, then rotated for dark knights.
+  out.forEach(t=>t.n=norm(cross(sub(t.v[1],t.v[0]),sub(t.v[2],t.v[0]))));
+  return out;
+}
+for(const t of ['p','r','n','b','q','k'])models[t]=makeModel(t);
+class Chess3D {
+  constructor(canvas,options={}){
+    if(!canvas||!canvas.getContext)throw new Error('O tabuleiro 3D precisa de um canvas.');
+    this.canvas=canvas;this.ctx=canvas.getContext('2d');if(!this.ctx)throw new Error('Canvas 2D indisponível.');
+    this.options=options;this.state={board:Array(64).fill(null),legal:[],suggestions:[],selected:null};
+    this.camera={yaw:.28,elevation:.73,zoom:1};this.flipped=false;this.dead=false;this.hitFaces=[];this.handlers=[];this.geometry=[];
+    this._listen();
+    if(typeof ResizeObserver!=='undefined'&&canvas.addEventListener){this.observer=new ResizeObserver(()=>this._invalidate());this.observer.observe(canvas);}
+  }
+  _listen(){
+    if(!this.canvas.addEventListener)return;
+    const on=(type,fn,opt)=>{this.canvas.addEventListener(type,fn,opt);this.handlers.push([type,fn,opt]);};
+    on('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;this.drag={id:e.pointerId,x:e.clientX,y:e.clientY,px:e.clientX,py:e.clientY,moved:false};if(this.canvas.setPointerCapture)this.canvas.setPointerCapture(e.pointerId);});
+    on('pointermove',e=>{let d=this.drag;if(!d||d.id!==e.pointerId)return;let dx=e.clientX-d.px,dy=e.clientY-d.py;d.px=e.clientX;d.py=e.clientY;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>5)d.moved=true;if(d.moved)this.setCamera({yaw:this.camera.yaw-dx*.008,elevation:this.camera.elevation+dy*.006});});
+    on('pointerup',e=>{const d=this.drag;if(!d||d.id!==e.pointerId)return;this.drag=null;if(!d.moved){const rect=this.canvas.getBoundingClientRect(),p=this.pick((e.clientX-rect.left)*this.width/rect.width,(e.clientY-rect.top)*this.height/rect.height);if(p!==null&&this.options.onSquare)this.options.onSquare(p);}if(this.canvas.releasePointerCapture&&this.canvas.hasPointerCapture&&this.canvas.hasPointerCapture(e.pointerId))this.canvas.releasePointerCapture(e.pointerId);});
+    on('pointercancel',()=>{this.drag=null;});
+    on('wheel',e=>{e.preventDefault();this.setCamera({zoom:this.camera.zoom*Math.exp(-e.deltaY*.001)});},{passive:false});
+  }
+  _invalidate(){if(this.dead||this.frame)return;if(typeof requestAnimationFrame==='function')this.frame=requestAnimationFrame(()=>{this.frame=null;this._draw();});else this._draw();}
+  render(state){const next=Boolean(state.flipped);if(next!==this.flipped){this.camera.yaw+=Math.PI;this.flipped=next;}this.state=state;this._draw();}
+  setCamera(values){if(values.yaw!==undefined)this.camera.yaw=Number(values.yaw)||0;if(values.elevation!==undefined)this.camera.elevation=clamp(Number(values.elevation)||.73,.38,1.38);if(values.zoom!==undefined)this.camera.zoom=clamp(Number(values.zoom)||1,.72,1.45);this._draw();if(this.options.onCameraChange)this.options.onCameraChange(this.getCamera());}
+  getCamera(){return {...this.camera};}
+  resetCamera(flipped=this.flipped){this.flipped=Boolean(flipped);this.setCamera({yaw:.28+(this.flipped?Math.PI:0),elevation:.73,zoom:1});}
+  destroy(){this.dead=true;if(this.observer)this.observer.disconnect();if(this.frame&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(this.frame);for(const [type,fn,opt]of this.handlers)this.canvas.removeEventListener(type,fn,opt);this.handlers=[];}
+  _size(){let w=this.canvas.width||1000,h=this.canvas.height||820,dpr=1;if(this.canvas.getBoundingClientRect){const r=this.canvas.getBoundingClientRect();if(r.width>0&&r.height>0){w=r.width;h=r.height;dpr=typeof devicePixelRatio==='number'?Math.min(2,devicePixelRatio):1;if(this.canvas.width!==Math.round(w*dpr))this.canvas.width=Math.round(w*dpr);if(this.canvas.height!==Math.round(h*dpr))this.canvas.height=Math.round(h*dpr);}}this.width=w;this.height=h;this.ctx.setTransform(dpr,0,0,dpr,0,0);}
+  _view(){const{yaw,elevation,zoom}=this.camera,sy=Math.sin(yaw),cy=Math.cos(yaw),se=Math.sin(elevation),ce=Math.cos(elevation);this.right=[cy,0,-sy];this.up=[-sy*se,ce,-cy*se];this.out=[sy*ce,se,cy*ce];this.distance=17.5/zoom;this.origin=[this.out[0]*this.distance,.30+this.out[1]*this.distance,this.out[2]*this.distance];// Fit the whole board at the default zoom for every orbit angle.
+    // The fit uses a fixed reference distance, so wheel zoom still magnifies.
+    const bounds=[];for(const [extent,y]of [[4.53,-.36],[3.89,1.83]])for(const x of [-extent,extent])for(const z of [-extent,extent]){const p=[x,y-.30,z],d=17.5-dot(p,this.out);bounds.push([dot(p,this.right)/d,dot(p,this.up)/d]);}
+    const minX=Math.min(...bounds.map(p=>p[0])),maxX=Math.max(...bounds.map(p=>p[0])),minY=Math.min(...bounds.map(p=>p[1])),maxY=Math.max(...bounds.map(p=>p[1])),pad=Math.min(this.width,this.height)*.035;
+    this.focal=Math.min((this.width-pad*2)/(maxX-minX),(this.height-pad*2)/(maxY-minY));this.cx=this.width/2-this.focal*(minX+maxX)/2;this.cy=this.height/2+this.focal*(minY+maxY)/2;}
+  project(point){const p=[point[0],point[1]-.30,point[2]],depth=this.distance-dot(p,this.out);return [this.cx+dot(p,this.right)*this.focal/depth,this.cy-dot(p,this.up)*this.focal/depth,depth];}
+  projectSquare(index){const p=this.project([index%8-3.5,.02,Math.floor(index/8)-3.5]);return {x:p[0],y:p[1],depth:p[2]};}
+  _path(points){const c=this.ctx;c.beginPath();for(let i=0;i<points.length;i++)i?c.lineTo(points[i][0],points[i][1]):c.moveTo(points[i][0],points[i][1]);c.closePath();}
+  _poly(world,fill,stroke=null,width=1){const p=world.map(v=>this.project(v));this._path(p);this.ctx.fillStyle=fill;this.ctx.fill();if(stroke){this.ctx.strokeStyle=stroke;this.ctx.lineWidth=width;this.ctx.stroke();}}
+  _disc(x,z,r,fill,y=.015){const points=[];for(let k=0;k<32;k++)points.push([x+Math.cos(k*TAU/32)*r,y,z+Math.sin(k*TAU/32)*r]);this._poly(points,fill);}
+  _ring(x,z,r,color,width=.025,y=.023){const n=36;for(let k=0;k<n;k++){const a=k*TAU/n,b=(k+1)*TAU/n;this._poly([[x+Math.cos(a)*r,y,z+Math.sin(a)*r],[x+Math.cos(b)*r,y,z+Math.sin(b)*r],[x+Math.cos(b)*(r-width),y,z+Math.sin(b)*(r-width)],[x+Math.cos(a)*(r-width),y,z+Math.sin(a)*(r-width)]],color);}}
+  _tileBorder(i,color,thickness=.045){const x=i%8-4,z=Math.floor(i/8)-4,s=.04,t=thickness;for(const q of [[[x+s,.025,z+s],[x+1-s,.025,z+s],[x+1-s,.025,z+s+t],[x+s,.025,z+s+t]],[[x+s,.025,z+1-s-t],[x+1-s,.025,z+1-s-t],[x+1-s,.025,z+1-s],[x+s,.025,z+1-s]],[[x+s,.025,z+s],[x+s+t,.025,z+s],[x+s+t,.025,z+1-s],[x+s,.025,z+1-s]],[[x+1-s-t,.025,z+s],[x+1-s,.025,z+s],[x+1-s,.025,z+1-s],[x+1-s-t,.025,z+1-s]]])this._poly(q,color);}
+  _arrow(from,to,primary=true){
+    if(from===to||![from,to].every(i=>Number.isInteger(i)&&i>=0&&i<64))return;
+    const a=[from%8-3.5,Math.floor(from/8)-3.5],b=[to%8-3.5,Math.floor(to/8)-3.5],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),ux=dx/len,uz=dz/len,nx=-uz,nz=ux;
+    const p=(t,n)=>[a[0]+ux*t+nx*n,.045,a[1]+uz*t+nz*n],shaft=primary?.105:.068,head=primary?.27:.21;
+    // Begin outside the piece's foot. An outlined, wide head remains legible
+    // against either square color while staying attached to the ground plane.
+    this._poly([p(.40,-shaft),p(len-.42,-shaft),p(len-.42,-head),p(len-.10,0),p(len-.42,head),p(len-.42,shaft),p(.40,shaft)],primary?'rgba(241,185,62,.97)':'rgba(190,157,78,.66)',primary?'rgba(100,72,24,.78)':'rgba(109,88,43,.45)',primary?1.3:.8);
+  }
+  _suggestions(){
+    const found=[],seen=new Set();
+    for(const move of this.state.suggestions||[]){
+      if(!move||![move.from,move.to].every(i=>Number.isInteger(i)&&i>=0&&i<64)||move.from===move.to)continue;
+      const key=move.from+':'+move.to;if(seen.has(key))continue;
+      seen.add(key);found.push(move);if(found.length===3)break;
+    }
+    return found;
+  }
+  _draw(){
+    if(this.dead)return;this._size();this._view();const c=this.ctx,w=this.width,h=this.height,s=this.state;
+    c.clearRect(0,0,w,h);const bg=c.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#f8f6ef');bg.addColorStop(1,'#e8eee5');c.fillStyle=bg;c.fillRect(0,0,w,h);
+    // Soft contact shadow under the solid wooden board.
+    for(let j=10;j>0;j--){const r=4.38+j*.035;this._poly([[-r,-.34,-r],[r,-.34,-r],[r,-.34,r],[-r,-.34,r]],`rgba(32,53,38,${.011+(10-j)*.001})`);}
+    const edge=4.40,bottom=-.29,bevel=-.08;
+    const boardFaces=[];const bf=(verts,color)=>boardFaces.push({verts,color,d:verts.reduce((a,p)=>a+this.project(p)[2],0)/verts.length});
+    for(const [a,b]of [[[-edge,-edge],[edge,-edge]],[[edge,-edge],[edge,edge]],[[edge,edge],[-edge,edge]],[[-edge,edge],[-edge,-edge]]]){
+      bf([[a[0],bottom,a[1]],[b[0],bottom,b[1]],[b[0],bevel,b[1]],[a[0],bevel,a[1]]],rgba([124,92,58],.93+.16*(a[0]<0)));
+      bf([[a[0],bevel,a[1]],[b[0],bevel,b[1]],[b[0]*.981,0,b[1]*.981],[a[0]*.981,0,a[1]*.981]],'#bc996c');
+    }
+    boardFaces.sort((a,b)=>b.d-a.d).forEach(f=>this._poly(f.verts,f.color));
+    this._poly([[-4.316,0,-4.316],[4.316,0,-4.316],[4.316,0,4.316],[-4.316,0,4.316]],'#c7ad83');
+    this._poly([[-4.04,.002,-4.04],[4.04,.002,-4.04],[4.04,.002,4.04],[-4.04,.002,4.04]],'#647661');
+    for(let i=0;i<64;i++){let x=i%8-4,z=Math.floor(i/8)-4;this._poly([[x,.006,z],[x+1,.006,z],[x+1,.006,z+1],[x,.006,z+1]],(i+Math.floor(i/8))%2?'#7c977b':'#e9e2cb');}
+    if(s.last)for(const i of [s.last.from,s.last.to]){const x=i%8-4,z=Math.floor(i/8)-4;this._poly([[x,.009,z],[x+1,.009,z],[x+1,.009,z+1],[x,.009,z+1]],'rgba(220,192,91,.30)');}
+    if(s.selected!==null&&s.selected!==undefined){const i=s.selected,x=i%8-4,z=Math.floor(i/8)-4;this._poly([[x,.011,z],[x+1,.011,z],[x+1,.011,z+1],[x,.011,z+1]],'rgba(97,173,129,.28)');this._tileBorder(i,'#efffe0',.043);}
+    if(s.check!==null&&s.check!==undefined)this._tileBorder(s.check,'#ba5046',.075);
+    if(s.focus!==null&&s.focus!==undefined)this._tileBorder(s.focus,'#d89028',.052);
+    for(const i of s.legal||[]){let x=i%8-3.5,z=Math.floor(i/8)-3.5;s.board[i]?this._ring(x,z,.42,'rgba(242,251,226,.95)',.055):this._disc(x,z,.11,'rgba(28,78,52,.65)');}
+    // Coordinate labels live on the board's wooden frame.
+    c.font=`600 ${Math.max(10,Math.min(w,h)*.016)}px system-ui,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillStyle='#4c5a43';
+    for(let k=0;k<8;k++){for(const z of [-4.17,4.17]){const p=this.project([k-3.5,.015,z]);c.fillText('abcdefgh'[k],p[0],p[1]);}for(const x of [-4.17,4.17]){const p=this.project([x,.015,k-3.5]);c.fillText(String(8-k),p[0],p[1]);}}
+    // Layered ground-plane shadows remain attached to each piece as the camera orbits.
+    for(let i=0;i<64;i++)if(s.board[i]){const x=i%8-3.5,z=Math.floor(i/8)-3.5;for(let j=4;j>0;j--)this._disc(x+.06*j,z-.075*j,.32+j*.022,'rgba(29,48,31,.045)',.012);this._disc(x,z,.34,'rgba(28,39,27,.11)',.013);}
+    const suggestions=this._suggestions();
+    for(let j=suggestions.length-1;j>=0;j--){
+      const move=suggestions[j],primary=j===0,color=primary?'rgba(247,190,66,.98)':'rgba(187,157,83,.76)';
+      this._tileBorder(move.from,color,primary?.065:.035);this._tileBorder(move.to,color,primary?.075:.040);
+      this._arrow(move.from,move.to,primary);
+    }
+    if(s.hint&&!suggestions.some(move=>move.from===s.hint.from&&move.to===s.hint.to))this._arrow(s.hint.from,s.hint.to);
+    const faces=[];
+    for(let i=0;i<64;i++){
+      const piece=s.board[i];if(!piece)continue;const type=String(piece).toLowerCase(),model=models[type];if(!model)continue;
+      const white=piece===String(piece).toUpperCase(),color=white?ivory:forest,x=i%8-3.5,z=Math.floor(i/8)-3.5,rot=(!white&&type==='n')?-1:1;
+      let cache=this.geometry[i];if(!cache||cache.piece!==piece){cache={piece,faces:model.map(f=>{
+        const world=f.v.map(v=>[x+v[0]*rot,v[1],z+v[2]*rot]);const center=[0,0,0];for(const v of world){center[0]+=v[0]/3;center[1]+=v[1]/3;center[2]+=v[2]/3;}
+        const normal=[f.n[0]*rot,f.n[1],f.n[2]*rot],diffuse=Math.max(0,dot(normal,light));
+        return {world,center,normal,shade:(white?.66:.67)+diffuse*(white?.37:.66),color:f.detail?(white?material.ivoryDetail:material.forestDetail):color};
+      })};this.geometry[i]=cache;}
+      for(const f of cache.faces){const delta=sub(this.origin,f.center);if(dot(f.normal,delta)<=0)continue;
+        const pts=f.world.map(v=>this.project(v)),depth=(pts[0][2]+pts[1][2]+pts[2][2])/3,view=norm(delta),half=norm(light.map((n,j)=>n+view[j]));
+        const spec=Math.pow(Math.max(0,dot(f.normal,half)),20)*(white?.07:.19);
+        faces.push({p:pts,d:depth,fill:rgba(f.color,f.shade+spec),square:i});
+      }
+    }
+    faces.sort((a,b)=>b.d-a.d);for(const f of faces){this._path(f.p);c.fillStyle=f.fill;c.fill();c.strokeStyle=f.fill;c.lineWidth=.45;c.stroke();}
+    this.hitFaces=faces;
+  }
+  pick(x,y){
+    const p=[x,y];for(let k=this.hitFaces.length-1;k>=0;k--){const f=this.hitFaces[k];if(inTri(p,f.p[0],f.p[1],f.p[2]))return f.square;}
+    const nx=(x-this.cx)/this.focal,ny=(this.cy-y)/this.focal,ray=this.right.map((v,i)=>v*nx+this.up[i]*ny-this.out[i]);if(Math.abs(ray[1])<1e-8)return null;
+    const t=-this.origin[1]/ray[1];if(t<=0)return null;const px=this.origin[0]+ray[0]*t,pz=this.origin[2]+ray[2]*t;
+    if(px<-4||px>=4||pz<-4||pz>=4)return null;return Math.floor(pz+4)*8+Math.floor(px+4);
+  }
+}
+root.Chess3D=Chess3D;if(typeof module!=='undefined'&&module.exports)module.exports=Chess3D;
+})(typeof globalThis!=='undefined'?globalThis:window);
+</script>
+<script id="coach-source">/* Local, deliberately short chess analysis for learning during a real game. */
+(function (root) {
+  'use strict';
+  const MATE = 100000;
+  const VALUE = {p:100,n:320,b:335,r:500,q:900,k:0};
+  const pieces = {
+    p:{name:'peão',value:1,rule:'O peão avança uma casa para a frente, ou duas a partir da casa inicial se o caminho estiver livre. Captura uma casa na diagonal para a frente. Ao chegar à última fileira, é promovido.'},
+    n:{name:'cavalo',value:3,rule:'O cavalo anda em L: duas casas em uma direção e uma para o lado. É a única peça que pode saltar outras peças.'},
+    b:{name:'bispo',value:3,rule:'O bispo percorre as diagonais, quantas casas quiser, sem saltar peças. Permanece sempre em casas da mesma cor.'},
+    r:{name:'torre',value:5,rule:'A torre percorre fileiras e colunas, quantas casas quiser, sem saltar peças.'},
+    q:{name:'dama',value:9,rule:'A dama percorre fileiras, colunas e diagonais, quantas casas quiser, sem saltar peças.'},
+    k:{name:'rei',value:null,rule:'O rei anda uma casa em qualquer direção, mas nunca pode ficar sob ataque. Em xeque, é obrigatório eliminar a ameaça. Xeque-mate acontece quando não há lance legal que salve o rei.'}
+  };
+  const now = () => typeof performance !== 'undefined' ? performance.now() : Date.now();
+  const color = p => p && (p === p.toUpperCase() ? 'w' : 'b');
+  const other = side => side === 'w' ? 'b' : 'w';
+  const sq = index => 'abcdefgh'[index % 8] + (8 - (index >> 3));
+  const index = square => typeof square === 'number' ? square : typeof square === 'string' && /^[a-h][1-8]$/.test(square) ? (8 - Number(square[1])) * 8 + 'abcdefgh'.indexOf(square[0]) : -1;
+  const publicMove = m => m ? {...{from:m.from,to:m.to},...(m.promotion ? {promotion:m.promotion} : {})} : null;
+  const sameMove = (a,b) => !!a && !!b && index(a.from) === index(b.from) && index(a.to) === index(b.to) && (a.promotion || 'q').toLowerCase() === (b.promotion || 'q').toLowerCase();
+  const moveKey = move => `${move.from}/${move.to}/${move.promotion || ''}`;
+  const legalMove = (engine,move) => move ? engine.moves().find(candidate => sameMove(candidate,move)) : null;
+  const saneInt = (value,fallback,min,max) => Number.isFinite(Number(value)) ? Math.max(min,Math.min(max,Math.floor(Number(value)))) : fallback;
+
+  function evaluate(engine) {
+    let total = 0, nonPawn = 0;
+    const pawns = {w:Array(8).fill(0),b:Array(8).fill(0)}, bishops = {w:0,b:0};
+    for (let i=0;i<64;i++) {
+      const p = engine.board[i]; if (!p) continue;
+      const side=color(p), type=p.toLowerCase();
+      if(type==='p') pawns[side][i%8]++;
+      else if(type!=='k') nonPawn+=VALUE[type];
+      if(type==='b') bishops[side]++;
+    }
+    const endgame=nonPawn<2600;
+    for(let i=0;i<64;i++) {
+      const p=engine.board[i]; if(!p) continue;
+      const side=color(p), type=p.toLowerCase(), row=i>>3, file=i%8;
+      const home=side==='w'?7:0, advance=side==='w'?6-row:row-1;
+      const center=7-Math.abs(file-3.5)-Math.abs(row-3.5);
+      let value=VALUE[type];
+      if(type==='p') {
+        value+=advance*(endgame?13:8)+4*(3.5-Math.abs(file-3.5));
+        // Central pawn space offsets the temporary opening of the king's shield.
+        if(!endgame&&(file===3||file===4)&&advance>0) value+=advance>=2?32:16;
+        if(pawns[side][file]>1) value-=13;
+        if(!(pawns[side][file-1]||pawns[side][file+1])) value-=12;
+        let passed=true;
+        for(let r=row+(side==='w'?-1:1);r>=0&&r<8;r+=(side==='w'?-1:1)) {
+          for(let f=Math.max(0,file-1);f<=Math.min(7,file+1);f++) if(engine.board[r*8+f]===(side==='w'?'p':'P')) passed=false;
+        }
+        if(passed) value+=14+Math.max(0,advance)*(endgame?10:5);
+      } else if(type==='n') {
+        value+=center*10-(row===home?17:0)-(file===0||file===7?15:0);
+      } else if(type==='b') value+=center*5-(row===home?12:0);
+      else if(type==='r') {
+        if(!pawns[side][file]) value+=pawns[other(side)][file]?12:22;
+        if(row===(side==='w'?1:6)) value+=23;
+      } else if(type==='q') {
+        value+=center*2;
+        if(!endgame&&row!==home) for(const f of [1,2,5,6]) {
+          const homePiece=engine.board[home*8+f];
+          if(homePiece&&color(homePiece)===side&&/[bn]/i.test(homePiece)) value-=8;
+        }
+      } else if(type==='k') {
+        if(endgame) value+=center*12;
+        else {
+          value-=center*9;
+          if(row===home&&(file===2||file===6)) value+=35;
+          const front=row+(side==='w'?-1:1);
+          if(front>=0&&front<8) for(let f=Math.max(0,file-1);f<=Math.min(7,file+1);f++) if(engine.board[front*8+f]===(side==='w'?'P':'p')) value+=13;
+        }
+      }
+      total+=(side==='w'?1:-1)*value;
+    }
+    if(bishops.w>=2) total+=28;
+    if(bishops.b>=2) total-=28;
+    return engine.turn==='w'?total:-total;
+  }
+
+  function order(moves, preferred) {
+    return moves.map((m,i)=>({m,i,v:(sameMove(m,preferred)?1000000:0)+(m.captured?10000+VALUE[m.captured.toLowerCase()]*10-VALUE[m.piece.toLowerCase()]:0)+(m.promotion?9000+VALUE[m.promotion]:0)+(m.castle?80:0)+7-Math.abs(m.to%8-3.5)-Math.abs((m.to>>3)-3.5)}))
+      .sort((a,b)=>b.v-a.v||a.i-b.i).map(item=>item.m);
+  }
+
+  function recommend(input,opts={}) {
+    if(!input||typeof input.clone!=='function') return {fen:null,depth:0,candidates:[],suggested:[],best:null};
+    const engine=input.clone(),fen=engine.fen();
+    const empty={fen,depth:0,candidates:[],suggested:[],best:null};
+    if(engine.status().over) return empty;
+    const legal=engine.moves(); if(!legal.length) return empty;
+    const deadline=now()+saneInt(opts.maxMs,700,0,10000);
+    const maxDepth=saneInt(opts.maxDepth,3,1,5),quietDepth=saneInt(opts.quietDepth,3,0,5);
+    const timeout={}, INF=MATE+1000;
+    let nodes=0;
+    const checkTime=()=>{ if((nodes++&15)===0&&now()>=deadline) throw timeout; };
+    const drawn=()=>engine.halfmove>=100||engine._insufficientMaterial();
+    function quiet(alpha,beta,remaining,ply,knownMoves) {
+      checkTime();
+      const moves=knownMoves||engine.moves(),check=engine.inCheck();
+      if(!moves.length) return {score:check?-MATE+ply:0,pv:[]};
+      if(drawn()) return {score:0,pv:[]};
+      const standPat=evaluate(engine);
+      // A finite horizon is essential for repeated checks; terminal positions
+      // were checked above even at this bound. Normal check nodes have no stand-pat.
+      if(remaining<=-2||(!check&&remaining<=0)) return {score:standPat,pv:[]};
+      let bestScore=check?-INF:standPat,bestPV=[];
+      if(!check) {
+        if(standPat>=beta) return {score:standPat,pv:[]};
+        alpha=Math.max(alpha,standPat);
+      }
+      const candidates=check?moves:moves.filter(m=>m.captured||m.enPassant||m.promotion);
+      for(const move of order(candidates)) {
+        const snapshot=engine._apply(move); let child;
+        try { child=quiet(-beta,-alpha,remaining-1,ply+1); }
+        finally { engine._restore(snapshot); }
+        const score=-child.score;
+        if(score>bestScore) {bestScore=score;bestPV=[publicMove(move),...child.pv];}
+        if(score>alpha) alpha=score;
+        if(alpha>=beta) break;
+      }
+      return {score:bestScore,pv:bestPV};
+    }
+    function search(depth,alpha,beta,ply) {
+      checkTime();
+      const moves=engine.moves();
+      if(!moves.length) return {score:engine.inCheck()?-MATE+ply:0,pv:[]};
+      if(drawn()) return {score:0,pv:[]};
+      if(depth<=0) return quiet(alpha,beta,quietDepth,ply,moves);
+      let bestScore=-INF,bestPV=[];
+      for(const move of order(moves)) {
+        const snapshot=engine._apply(move);let child;
+        try { child=search(depth-1,-beta,-alpha,ply+1); }
+        finally { engine._restore(snapshot); }
+        const score=-child.score;
+        if(score>bestScore) {bestScore=score;bestPV=[publicMove(move),...child.pv];}
+        if(score>alpha) alpha=score;
+        if(alpha>=beta) break;
+      }
+      return {score:bestScore,pv:bestPV};
+    }
+    // A whole, equally shallow fallback exists even with an immediate deadline.
+    // It is marked depth 0, so compare will not issue a negative judgement.
+    let completed=legal.map(move=>{
+      const snapshot=engine._apply(move);let score;
+      try {const replies=engine.moves();score=!replies.length?(engine.inCheck()?MATE-1:0):drawn()?0:-evaluate(engine);}
+      finally {engine._restore(snapshot);}
+      return {move:publicMove(move),score,reply:null,pv:[publicMove(move)],depth:0};
+    });
+    let completedDepth=0;
+    for(let depth=1;depth<=maxDepth;depth++) {
+      const iteration=[];
+      const previous=new Map(completed.map(c=>[moveKey(c.move),c.score]));
+      const roots=legal.slice().sort((a,b)=>previous.get(moveKey(b))-previous.get(moveKey(a)));
+      try {
+        for(const move of roots) {
+          if(now()>=deadline) throw timeout;
+          const snapshot=engine._apply(move);let child;
+          // Each root gets a full window. Reusing root alpha would give bounds,
+          // not comparable exact scores for the unselected legal alternatives.
+          try {child=search(depth-1,-INF,INF,1);}
+          finally {engine._restore(snapshot);}
+          iteration.push({move:publicMove(move),score:-child.score,reply:child.pv[0]||null,pv:[publicMove(move),...child.pv],depth});
+        }
+        completed=iteration;completedDepth=depth;
+      } catch(error) {if(error!==timeout) throw error;break;}
+    }
+    completed.sort((a,b)=>b.score-a.score||moveKey(a.move).localeCompare(moveKey(b.move)));
+    const best=completed[0];
+    const suggested=completed.filter(c=>best.score-c.score<=35).slice(0,3).map(c=>c.move);
+    return {fen,depth:completedDepth,candidates:completed,suggested,best:best.move};
+  }
+
+  function describeMove(engine,move) {
+    const m=legalMove(engine,move); if(!m) return 'lance indisponível';
+    if(m.castle) return m.castle==='k'?'roque pequeno':'roque grande';
+    return `${pieces[m.piece.toLowerCase()].name} de ${sq(m.from)} para ${sq(m.to)}${m.promotion?`, com promoção para ${pieces[m.promotion].name}`:''}`;
+  }
+
+  function explainRecommendation(engine,move) {
+    if(!engine||!move) return 'Não há sugestão nesta posição.';
+    const m=legalMove(engine,move);if(!m) return 'Essa sugestão não pertence à posição atual.';
+    const work=engine.clone(),side=work.turn,type=m.piece.toLowerCase(),wasCheck=work.inCheck();
+    const parts=[`${capitalize(describeMove(engine,m))}.`];
+    work._apply(m);
+    const check=work.inCheck(),replies=work.moves();
+    if(check&&!replies.length) parts.push('É xeque-mate: o rei adversário está atacado e não tem defesa legal.');
+    else if(!replies.length) parts.push('Este lance produz empate por afogamento: o adversário não tem lance legal, mas não está em xeque.');
+    else {
+      if(wasCheck) parts.push('Este lance tira seu rei do xeque.');
+      if(m.castle) parts.push('O rei anda duas casas em direção à torre, e a torre passa para o outro lado dele. O caminho precisa estar livre; o rei não pode estar, passar ou terminar em xeque.');
+      if(m.captured) parts.push(`Captura ${article(m.captured)} ${pieces[m.captured.toLowerCase()].name} ${m.enPassant?'por en passant: o peão adversário acabou de avançar duas casas.':`em ${sq(m.to)}.`}`);
+      if(m.promotion) parts.push('Na última fileira, seu peão se transforma na peça escolhida.');
+      if(check) parts.push('Dá xeque: o adversário precisa eliminar o ataque ao rei.');
+      if(['n','b'].includes(type)&&((m.from>>3)===(side==='w'?7:0))&&((m.to>>3)!==(side==='w'?7:0))) parts.push(`Desenvolve ${type==='n'?'o cavalo':'o bispo'}, tirando a peça da fileira inicial.`);
+      if([27,28,35,36].includes(m.to)) parts.push('Ocupa uma das quatro casas centrais, uma região importante para a mobilidade das peças.');
+
+    }
+    if(!m.castle) parts.push(pieces[type].rule);
+    return parts.join(' ');
+  }
+  const capitalize=s=>s.charAt(0).toUpperCase()+s.slice(1);
+  const article=p=>/[qr]/i.test(p)?'a':'o';
+
+  function continuationDetails(engine,pv) {
+    const work=engine.clone(),side=work.turn,details=[],segments=[];
+    let material=0,checkedMate=false;
+    for(let i=0;i<Math.min(pv.length,6);i++) {
+      const move=legalMove(work,pv[i]);if(!move)break;
+      const actor=work.turn===side?'você':'adversário';
+      let segment=`${actor}: ${describeMove(work,move)}`;
+      if(move.captured) {
+        segment+=`, captura ${article(move.captured)} ${pieces[move.captured.toLowerCase()].name}`;
+        material+=(work.turn===side?1:-1)*VALUE[move.captured.toLowerCase()];
+      }
+      if(move.promotion) material+=(work.turn===side?1:-1)*(VALUE[move.promotion]-100);
+      work._apply(move);
+      if(work.inCheck()&&!work.moves().length) {segment+=' (xeque-mate)';checkedMate=true;}
+      else if(work.inCheck()) segment+=' (xeque)';
+      segments.push(segment);
+    }
+    if(segments.length>1) details.push('Uma continuação analisada: '+segments.join(' → ')+'.');
+    if(material<=-90&&!checkedMate) details.push(`Nessa sequência, o saldo das capturas e promoções é desfavorável em cerca de ${formatPawns(-material)} ponto${-material>=150?'s':''} de material. É uma possibilidade calculada, não uma sequência obrigatória.`);
+    return details;
+  }
+
+  function tacticalObservation(engine,pv) {
+    const work=engine.clone(),side=work.turn;let material=0,opponentCapture=null;
+    for(const step of pv.slice(0,8)) {
+      const move=legalMove(work,step);if(!move)break;
+      if(move.captured) {
+        material+=(work.turn===side?1:-1)*VALUE[move.captured.toLowerCase()];
+        if(work.turn!==side&&!opponentCapture) opponentCapture=`${describeMove(work,move)}, capturando ${article(move.captured)} ${pieces[move.captured.toLowerCase()].name}`;
+      }
+      if(move.promotion) material+=(work.turn===side?1:-1)*(VALUE[move.promotion]-100);
+      work._apply(move);
+    }
+    return {material,opponentCapture};
+  }
+  function positionalContrast(engine,played,best) {
+    if(!played||!best) return '';
+    const side=engine.turn,home=side==='w'?7:0;
+    const develops=m=>['n','b'].includes(m.piece.toLowerCase())&&(m.from>>3)===home&&(m.to>>3)!==home;
+    const prefix=`Na análise curta, a preferência é ${describeMove(engine,best)}. `;
+    if(best.castle&&!played.castle) return prefix+'A sugestão faz o roque, movimentando rei e torre juntos; seu lance adia essa possibilidade. O roque pode ajudar a proteger o rei e colocar a torre em uma posição mais ativa.';
+    if(develops(best)&&!develops(played)) return prefix+`A sugestão tira ${article(best.piece)} ${pieces[best.piece.toLowerCase()].name} da fileira inicial, enquanto seu lance mantém essa peça em ${sq(best.from)}. Desenvolver as peças pode ampliar suas opções para disputar o centro; esse é um motivo para priorizar a sugestão nesta posição.`;
+    if(played.piece.toLowerCase()==='n'&&[0,7].includes(played.to%8)&&![0,7].includes(played.from%8)&&![0,7].includes(best.to%8)) return prefix+`Seu cavalo foi para ${sq(played.to)}, na borda do tabuleiro. Ali ele pode ter menos opções de movimento do que perto do centro; a sugestão evita colocá-lo nessa borda agora.`;
+    if(best.piece.toLowerCase()==='p'&&[27,28,35,36].includes(best.to)&&played.piece.toLowerCase()==='p'&&[0,1,6,7].includes(played.to%8)) return prefix+`A sugestão ocupa ${sq(best.to)}, uma das quatro casas centrais, enquanto seu peão avança pela lateral. O espaço no centro pode facilitar a movimentação das outras peças.`;
+    if(played.piece.toLowerCase()==='q'&&engine.fullmove<=10&&!played.captured) {
+      const waiting=engine.board.reduce((count,p,i)=>count+(p&&color(p)===side&&['n','b'].includes(p.toLowerCase())&&(i>>3)===home?1:0),0);
+      if(waiting>=2&&best.piece.toLowerCase()!=='q') return prefix+`Você movimentou a dama enquanto ${waiting} cavalos ou bispos seus continuam na fileira inicial. Repetir lances de dama cedo pode atrasar a entrada dessas peças na partida. A sugestão investe esse turno em outra peça.`;
+    }
+    return '';
+  }
+  const formatPawns=score=>(Math.round(score/10)/10).toLocaleString('pt-BR',{maximumFractionDigits:1});
+
+  function compare(engineBefore,playedMove,priorRecommendation,opts={}) {
+    const played=engineBefore&&legalMove(engineBefore,playedMove);
+    if(!played) return {kind:'equivalent',title:'Lance indisponível',text:'Não foi possível comparar esse lance na posição informada.',details:[],loss:0,depth:0,best:null,played:null,pv:[]};
+    const fen=engineBefore.fen();
+    let analysis=priorRecommendation;
+    const allLegal=engineBefore.moves();
+    if(!analysis||analysis.fen!==fen||!Array.isArray(analysis.candidates)||analysis.candidates.length!==allLegal.length||analysis.candidates.some(c=>c.depth!==analysis.depth)||!allLegal.every(m=>analysis.candidates.some(c=>sameMove(c.move,m)))) analysis=recommend(engineBefore,opts);
+    const candidate=analysis.candidates.find(c=>sameMove(c.move,played)),best=analysis.candidates[0];
+    if(!candidate||!best) return {kind:'equivalent',title:'Partida encerrada',text:'Não há nova recomendação nesta posição.',details:[],loss:0,depth:analysis.depth||0,best:null,played:publicMove(played),pv:[]};
+    const loss=Math.max(0,best.score-candidate.score),suggested=analysis.suggested.some(m=>sameMove(m,played));
+    let kind,title,text;
+    if(analysis.depth===0) {
+      kind=suggested?'recommended':'equivalent';title='Lance realizado';
+      text='A análise ainda está superficial para julgar este lance. '+explainRecommendation(engineBefore,played);
+    } else if(suggested) {
+      kind='recommended';title='Você seguiu uma sugestão';text=explainRecommendation(engineBefore,played);
+    } else if(loss<=60) {
+      kind='equivalent';title='Boa alternativa';text=`Seu lance ficou próximo das sugestões na análise curta. Não seguir a marcação não significa errar. ${explainRecommendation(engineBefore,played)}`;
+    } else {
+      kind=loss>=250?'blunder':loss>=120?'mistake':'inaccuracy';
+      title=kind==='blunder'?'Vale rever este lance':kind==='mistake'?'Havia uma opção melhor':'Uma opção menos precisa';
+      if(best.score>=MATE-100&&candidate.score<MATE-100) text=`A análise encontrou uma sequência de mate com ${describeMove(engineBefore,best.move)}. Seu lance não conserva esse mate na profundidade analisada.`;
+      else if(candidate.score<=-MATE+100&&best.score>-MATE+100) text=`A análise encontrou uma sequência de mate para o adversário após seu lance. ${capitalize(describeMove(engineBefore,best.move))} evita essa sequência na profundidade analisada.`;
+      else {
+        const observation=tacticalObservation(engineBefore,candidate.pv),bestLegal=legalMove(engineBefore,best.move);
+        const after=engineBefore.clone();after._apply(played);
+        if(!after.moves().length&&!after.inCheck()&&best.score>150) text='Seu lance empata por afogamento: o adversário fica sem lance legal, mas seu rei não está em xeque. A sugestão mantém a vantagem na análise curta.';
+        else if(observation.opponentCapture&&observation.material<=-90) text=`Uma resposta encontrada é ${observation.opponentCapture}. Na continuação analisada, o saldo das trocas deixa você com menos material. ${capitalize(describeMove(engineBefore,best.move))} obtém um resultado melhor nessa busca curta.`;
+        else if(bestLegal&&bestLegal.captured) text=`A sugestão ${describeMove(engineBefore,best.move)} captura ${article(bestLegal.captured)} ${pieces[bestLegal.captured.toLowerCase()].name}${bestLegal.enPassant?' por en passant':` em ${sq(bestLegal.to)}`}. Nas respostas analisadas, essa opção aproveita melhor a posição que o lance escolhido.`;
+        else text=positionalContrast(engineBefore,played,bestLegal)||`Na análise curta, ${describeMove(engineBefore,best.move)} obtém uma posição melhor após as respostas do adversário. Seu lance é legal, mas recebeu uma avaliação inferior. Ainda não há uma perda de material ou um mate demonstrado nesta linha.`;
+      }
+    }
+    const details=[];
+    if(!suggested&&analysis.depth>0&&loss>60) {
+      details.push(`Sugestão: ${explainRecommendation(engineBefore,best.move)}`);
+      details.push(...continuationDetails(engineBefore,candidate.pv));
+      if(best.score>=MATE-100&&candidate.score<MATE-100) details.push(...continuationDetails(engineBefore,best.pv).map(t=>'Com a sugestão: '+t));
+      if(Math.abs(best.score)<MATE-100&&Math.abs(candidate.score)<MATE-100) details.push(`Diferença estimada: ${formatPawns(loss)} ponto${loss===100?'':'s'} de avaliação, somando material e posição. Não é uma perda garantida de peças.`);
+    }
+    details.push(`Análise local de ${analysis.depth} ${analysis.depth===1?'lance individual':'lances individuais'} à frente, com extensão de capturas e respostas a xeques. A avaliação pode mudar com uma análise mais profunda.`);
+    return {kind,title,text,details,loss,depth:analysis.depth,best:publicMove(best.move),played:publicMove(played),pv:candidate.pv};
+  }
+
+  const ChessCoach={recommend,compare,explainRecommendation,describeMove,pieces,sameMove};
+  root.ChessCoach=ChessCoach;
+  if(typeof module==='object'&&module.exports) module.exports=ChessCoach;
+})(typeof globalThis!=='undefined'?globalThis:self);
+</script>
+<script>(function(root){
+const paths = {
+ book:'<path d="M12 6v15M3 4c4-1 7 0 9 2 2-2 5-3 9-2v15c-4-1-7 0-9 2-2-2-5-3-9-2z"/>',
+ target:'<circle cx="12" cy="12" r="7"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4m0 3h.01"/>',
+ pointer:'<path d="m5 3 14 10-7 1-3 7z"/>',
+ flip:'<path d="M5 8a8 8 0 0 1 13-2l2 2M20 3v5h-5M19 16A8 8 0 0 1 6 18l-2-2M4 21v-5h5"/>',
+ 'sound-off':'<path d="m11 5-6 4H2v6h3l6 4zM16 9l5 6m0-6-5 6"/>',
+ sound:'<path d="m11 5-6 4H2v6h3l6 4zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ undo:'<path d="m8 4-5 5 5 5M3 9h10a7 7 0 0 1 0 14" transform="translate(1 -2)"/>',
+ bulb:'<path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0l-1 2H9z"/>',
+ list:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+ download:'<path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/>',
+ leaf:'<path d="M20 3C8 2 2 8 5 15s15 3 15-12ZM4 21l11-12"/>',
+ close:'<path d="m6 6 12 12M6 18 18 6"/>',
+ cpu:'<rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 9h6v6H9zM9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/>',
+ users:'<circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/>',
+ arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',
+ flag:'<path d="M5 21V3m0 1c5-5 9 5 15 0v10c-6 5-10-5-15 0"/>',
+ shuffle:'<path d="M3 6h3c5 0 7 12 12 12h3m-4-4 4 4-4 4M3 18h3c2 0 4-3 5-5m3-5c1-1 2-2 4-2h3m-4-4 4 4-4 4"/>'
+};
+const icon = name => `<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">${paths[name] || paths.user}</svg>`;
+
+const silhouettes = {
+ p:'<circle cx="30" cy="17" r="7"/><path d="M25 24c2 7-1 12-6 18h22c-5-6-8-11-6-18z"/><path d="M19 42h22l3 7H16z"/>',
+ r:'<path d="M17 11h7v6h3v-6h6v6h3v-6h7v14l-6 5 2 13H21l2-13-6-5z"/><path d="M18 43h24l3 7H15zM20 25h20M22 31h16"/>',
+ n:'<path d="M17 43c1-11 6-14 13-21l-6 1-4 6-8-4 7-13 12-5 9 8c6 9 6 19 2 28z"/><path d="m25 12 2-7 6 4M31 16h.2M14 24l6-1M30 23c3 2 3 7 1 10"/><path d="M17 43h26l3 7H14z"/>',
+ b:'<path d="M30 8c-6 5-12 11-10 18 1 4 6 7 10 7s9-3 10-7C42 19 36 13 30 8Z"/><path d="m31 15-6 10M25 33l-5 10h20l-5-10M18 43h24l3 7H15z"/><circle cx="30" cy="7" r="2.5"/>',
+ q:'<path d="m16 19 6 21h16l6-21-10 7-4-11-4 11z"/><circle cx="15" cy="17" r="3"/><circle cx="30" cy="12" r="3"/><circle cx="45" cy="17" r="3"/><path d="M21 36h18M21 40h18l5 9H16zM18 49h24"/>',
+ k:'<path d="M30 6v11m-5-7h10" fill="none"/><path d="M30 20c-9-13-22 0-10 11l3 11h14l3-11c12-11-1-24-10-11z"/><path d="M21 31h18M23 37h14M20 42h20l4 8H16z"/>'
+};
+function pieceSvg(piece,extra='') {
+ const white = piece === piece.toUpperCase();
+ return `<svg class="piece ${extra}" viewBox="0 0 60 60" fill="${white?'#fcf9ec':'#2e3f36'}" stroke="${white?'#4a5847':'#c7d1bf'}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${silhouettes[piece.toLowerCase()]}</svg>`;
+}
+
+root.CasaAssets={icon,pieceSvg};
+})(globalThis);</script>
+<script>(() => {
+'use strict';
+const $=id=>document.getElementById(id),{icon,pieceSvg}=CasaAssets;
+document.querySelectorAll('[data-icon]').forEach(el=>el.outerHTML=icon(el.dataset.icon));
+const names={p:'peão',n:'cavalo',b:'bispo',r:'torre',q:'dama',k:'rei'},levelNames={easy:'Iniciante',medium:'Casual',hard:'Desafio'};
+const sideName=s=>s==='w'?'brancas':'pretas',color=p=>p===p.toUpperCase()?'w':'b';
+const sq=i=>'abcdefgh'[i%8]+(8-Math.floor(i/8));
+const label=p=>names[p.toLowerCase()]+' '+(color(p)==='w'?'branc':'pret')+('qr'.includes(p.toLowerCase())?'a':'o');
+const sameMove=(a,b)=>a&&b&&a.from===b.from&&a.to===b.to&&(a.promotion||'q')===(b.promotion||'q');
+const publicMove=({from,to,promotion})=>promotion?{from,to,promotion}:{from,to};
+const jobs={};
+let game=new ChessEngine(),opponent='computer',human='w',level='easy',experience='free',flipped=false,sound=false,view='3d';
+let selected=null,legal=[],focusSquare=56,canvasFocus=null,promotion=null,thinking=false,renderer=null;
+let recommendation=null,recommending=false,reviewing=false,review=null,selectionText=null,latestReviewPly=0,gameEpoch=0;
+let drawerOpen=false,draftColor='w',stored=false,audioContext=null,toastTimer=null,resultTimer=null,resultShown=false,detailsOpen=false;
+const storageKey='casa64.v1';
+function save(){try{localStorage.setItem(storageKey,JSON.stringify({version:1,mode:opponent,human,level,flipped,sound,experience,view,moves:game.history.map(publicMove)}));stored=true;}catch{stored=false;}}
+function restore(){try{const s=JSON.parse(localStorage.getItem(storageKey));if(!s||s.version!==1||!Array.isArray(s.moves))return;const restored=new ChessEngine();for(const m of s.moves){if(restored.status().over||!restored.move(m))throw Error('Partida inválida');}game=restored;opponent=s.mode==='local'?'local':'computer';human=s.human==='b'?'b':'w';level=levelNames[s.level]?s.level:'easy';flipped=!!s.flipped;sound=!!s.sound;experience=s.experience==='learn'?'learn':'free';view=s.view==='2d'?'2d':'3d';stored=true;}catch{game=new ChessEngine();}}
+function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,2800);}
+function announce(text){$('game-announcement').textContent=text;}
+function cancelJob(type){const old=jobs[type];if(old){old.cancelled=true;old.worker?.terminate();clearTimeout(old.timer);}jobs[type]=null;}
+function stopAll(){for(const key of ['ai','suggest','review'])cancelJob(key);thinking=false;recommending=false;reviewing=false;}
+function executeJob(payload,fallback=false){const e=new ChessEngine(payload.fen);if(payload.kind==='ai')return chooseChessMove(e,payload.level);const opts={maxMs:fallback?250:750,maxDepth:3};if(payload.kind==='suggest')return ChessCoach.recommend(e,opts);return ChessCoach.compare(e,payload.move,payload.prior,opts);}
+function runJob(type,payload,onDone){
+ cancelJob(type);const job={cancelled:false,worker:null,timer:null,start:performance.now()};jobs[type]=job;
+ const finish=result=>{if(job.cancelled||jobs[type]!==job)return;job.worker?.terminate();job.worker=null;const delay=type==='ai'?Math.max(0,320-(performance.now()-job.start)):0;job.timer=setTimeout(()=>{if(!job.cancelled&&jobs[type]===job){jobs[type]=null;onDone(result);}},delay);};
+ const fallback=()=>{job.worker?.terminate();job.worker=null;job.timer=setTimeout(()=>{if(job.cancelled)return;try{finish(executeJob(payload,true));}catch{finish(null);}},15);};
+ try{const source=$('engine-source').textContent+'\n'+$('ai-source').textContent+'\n'+$('coach-source').textContent+'\nonmessage=function(e){try{const p=e.data,g=new ChessEngine(p.fen),o={maxMs:750,maxDepth:3};postMessage({result:p.kind==="ai"?chooseChessMove(g,p.level):p.kind==="suggest"?ChessCoach.recommend(g,o):ChessCoach.compare(g,p.move,p.prior,o)});}catch(err){postMessage({error:String(err)});}};';const url=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));try{job.worker=new Worker(url);}finally{URL.revokeObjectURL(url);}job.worker.onmessage=e=>{if(job.cancelled)return;e.data.error?fallback():finish(e.data.result);};job.worker.onerror=()=>{if(!job.cancelled)fallback();};job.worker.postMessage(payload);}catch{fallback();}
+}
+function humanTurn(){return opponent==='local'||game.turn===human;}
+function startRecommendations(){
+ cancelJob('suggest');recommendation=null;recommending=false;
+ if(experience!=='learn'||game.status().over||!humanTurn()){renderCoach();renderBoard();return;}
+ const fen=game.fen(),epoch=gameEpoch;recommending=true;renderCoach();renderBoard();
+ runJob('suggest',{kind:'suggest',fen},result=>{if(experience!=='learn'||gameEpoch!==epoch||game.fen()!==fen)return;recommending=false;recommendation=result&&result.fen===fen?result:null;renderCoach();renderBoard();});
+}
+function startReview(beforeFen,move,prior,ply){
+ if(experience!=='learn')return;
+ const epoch=gameEpoch;latestReviewPly=ply;reviewing=true;review=null;selectionText=null;renderCoach();
+ runJob('review',{kind:'review',fen:beforeFen,move:publicMove(move),prior},result=>{if(experience!=='learn'||gameEpoch!==epoch||latestReviewPly!==ply)return;reviewing=false;review=result||{kind:'equivalent',title:'Seu lance foi realizado.',text:'Não consegui concluir a comparação desta vez. Você pode continuar a partida.',details:[]};selectionText=null;renderCoach();});
+}
+function queueComputer(){
+ if(opponent!=='computer'||game.turn===human||game.status().over){startRecommendations();return;}
+ thinking=true;selected=null;legal=[];recommendation=null;recommending=false;cancelJob('suggest');render();const fen=game.fen(),epoch=gameEpoch;
+ runJob('ai',{kind:'ai',fen,level},move=>{if(gameEpoch!==epoch||game.fen()!==fen)return;thinking=false;const entry=move&&game.move(move);if(!entry){render();toast('Não consegui calcular a resposta. Use Desfazer ou Nova partida no menu.');return;}playSound();save();render();checkResult();startRecommendations();});
+}
+function playSound(){if(!sound)return;try{audioContext=audioContext||new(window.AudioContext||window.webkitAudioContext)();audioContext.resume();const o=audioContext.createOscillator(),g=audioContext.createGain(),t=audioContext.currentTime;o.frequency.setValueAtTime(game.inCheck()?620:game.history.at(-1)?.captured?310:455,t);o.frequency.exponentialRampToValueAtTime(180,t+.1);g.gain.setValueAtTime(.045,t);g.gain.exponentialRampToValueAtTime(.001,t+.13);o.connect(g);g.connect(audioContext.destination);o.start(t);o.stop(t+.14);}catch{}}
+function suggestions(){return experience==='learn'&&recommendation?.fen===game.fen()?recommendation.suggested||[]:[];}
+function renderBoard(){
+ const recommended=suggestions(),targets=new Set(recommended.flatMap(m=>[m.from,m.to])),check=game.inCheck()?game.board.indexOf(game.turn==='w'?'K':'k'):null;
+ if(renderer&&view==='3d')renderer.render({board:game.board,selected,legal:[],last:game.history.at(-1)||null,check,hint:null,suggestions:recommended,flipped,focus:canvasFocus});
+ const hadFocus=$('board').contains(document.activeElement),previous=hadFocus?document.activeElement.dataset.square:null;
+ $('board').innerHTML=Array.from({length:64},(_,n)=>flipped?63-n:n).map(i=>{const p=game.board[i];return `<button class="square ${(Math.floor(i/8)+i%8)%2?'dark':''} ${i===selected?'selected':''} ${targets.has(i)?'suggested':''} ${i===check?'check':''}" data-square="${i}" tabindex="${i===focusSquare?0:-1}" aria-label="${sq(i)}, ${p?label(p):'vazia'}${targets.has(i)?', faz parte de uma sugestão':''}" aria-pressed="${selected===i}">${p?pieceSvg(p):''}<span class="coord" aria-hidden="true">${sq(i)}</span></button>`;}).join('');
+ if(hadFocus&&previous!==undefined)$('board').querySelector(`[data-square="${previous}"]`)?.focus({preventScroll:true});
+}
+function outcome(){const s=game.status();if(!s.over)return null;if(s.winner){return{title:opponent==='computer'?(s.winner===human?'Você venceu!':'O computador venceu.'):'Xeque-mate!',text:`Vitória das ${sideName(s.winner)} por xeque-mate.`};}return{title:'Partida empatada.',text:({stalemate:'O rei não está em xeque, mas não há lances legais: afogamento.',insufficient:'Material insuficiente para dar xeque-mate.',repetition:'A mesma posição apareceu três vezes.',fifty:'Foram 50 lances de cada lado sem captura nem movimento de peão.'})[s.reason]||'A partida terminou em empate.'};}
+function renderStatus(){
+ const over=outcome();$('status-title').textContent=over?over.title:thinking?'Computador pensando…':game.inCheck()?'Xeque!':opponent==='computer'?'Sua vez.':`Vez das ${sideName(game.turn)}.`;
+ $('status-text').textContent=over?over.text:opponent==='computer'?`Você de ${sideName(human)} · Computador ${levelNames[level].toLowerCase()}`:'Duas pessoas no mesmo dispositivo · Sem relógio';
+ $('menu-open').setAttribute('aria-label','Abrir menu. '+$('status-title').textContent);
+ $('undo-button').disabled=!game.history.length||(opponent==='computer'&&human==='b'&&game.history.length===1);
+ $('sound-button').textContent=sound?'Ligado':'Desligado';$('sound-button').setAttribute('aria-pressed',String(sound));$('export-button').disabled=!game.history.length;
+ document.querySelectorAll('[data-experience]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.experience===experience)));
+ $('mode-description').textContent=experience==='free'?'Partida normal, sem sugestões ou explicações. As regras do xadrez continuam valendo.':'Sugestões destacadas e análise dos seus lances durante uma partida completa. Você pode escolher qualquer movimento legal.';
+ $('save-status').textContent=stored?'Partida salva neste navegador.':'O salvamento depende da disponibilidade do armazenamento deste navegador.';
+}
+function renderHistory(){const history=game.history;$('history-count').textContent=history.length;if(!history.length){$('history').innerHTML='<p class="empty-history">Os lances aparecem aqui depois que a partida começa.</p>';return;}let html='<table aria-label="Histórico: número do lance, brancas e pretas"><tbody>';for(let i=0;i<history.length;i+=2)html+=`<tr><th scope="row">${i/2+1}.</th><td class="${i===history.length-1?'latest':''}">${history[i].san}</td><td class="${i+1===history.length-1?'latest':''}">${history[i+1]?.san||'—'}</td></tr>`;$('history').innerHTML=html+'</tbody></table>';$('history').scrollTop=$('history').scrollHeight;}
+function renderCoach(){
+ const learn=experience==='learn';$('game-screen').classList.toggle('learning',learn);$('coach-card').hidden=!learn;if(!learn)return;
+ const opts=suggestions();let title,text,details=[],kind='';
+ if(selectionText){({title,text}=selectionText);details=[...(selectionText.details||[])];}
+ else if(reviewing){title='Entendendo seu lance…';text='A análise está comparando sua jogada com as sugestões. A partida continua normalmente.';}
+ else if(review){({title,text,kind}=review);details=Array.isArray(review.details)?[...review.details]:[review.details].filter(Boolean);}
+ else if(game.status().over){const result=outcome();title=result.title;text=result.text;}
+ else if(thinking){title='Observe a resposta.';text='O computador está escolhendo seu lance. Depois, as sugestões para você aparecerão em dourado.';}
+ else if(recommending){title='Procurando boas jogadas…';text='Você já pode jogar. As recomendações aparecem assim que a análise terminar.';}
+ else if(opts.length){title='Uma ideia para seu próximo lance.';text=ChessCoach.explainRecommendation(game,opts[0]);details=['As setas e bordas douradas destacam jogadas sugeridas. Clique em uma sugestão abaixo para selecionar a peça; você faz o lance no tabuleiro.','Outras jogadas legais também podem ser boas. Sua escolha será comparada com as recomendações.'];}
+ else{title='Explore a posição.';text='Selecione uma peça para entender seu movimento. Você pode jogar qualquer lance legal.';}
+ $('coach-title').textContent=title||'Entenda a jogada.';$('coach-text').textContent=text||'';$('coach-card').dataset.kind=kind;
+ if(review&&selectionText)details.push(`${review.title} ${review.text}`);
+ details.push('Análise local curta: as sugestões podem deixar passar sequências mais longas.');
+ $('coach-details').innerHTML='';for(const detail of details){const p=document.createElement('p');p.textContent=detail;$('coach-details').appendChild(p);}
+ $('coach-details').hidden=!detailsOpen;$('coach-more').setAttribute('aria-expanded',String(detailsOpen));$('coach-more').textContent=detailsOpen?'Menos detalhes':'Mais detalhes';
+ $('recommendations').innerHTML=opts.map((m,i)=>`<button class="recommendation" data-recommendation="${i}" aria-pressed="${selected===m.from}">${pieceSvg(game.board[m.from])}<span>${sq(m.from)} → ${sq(m.to)}${m.promotion?' = '+names[m.promotion]:''}</span>${i===0?'<small>sugestão</small>':''}</button>`).join('');
+}
+function render(){renderStatus();renderHistory();renderCoach();renderBoard();}
+function checkResult(){const r=outcome();if(!r||resultShown)return;clearTimeout(resultTimer);resultTimer=setTimeout(()=>{if(!game.status().over||$('new-dialog').open||$('promotion-dialog').open)return;resultShown=true;$('result-title').textContent=r.title;$('result-text').textContent=r.text;closeMenu(false);$('result-dialog').showModal();announce(r.title+' '+r.text);},500);}
+function commit(move){
+ const fen=game.fen(),prior=recommendation,entry=game.move(move);if(!entry){toast('Esse lance não é permitido.');return;}
+ cancelJob('suggest');recommending=false;recommendation=null;selected=null;legal=[];canvasFocus=null;promotion=null;selectionText=null;review=null;
+ save();playSound();announce(`${entry.san}. Vez das ${sideName(game.turn)}.`);render();
+ if(experience==='learn')startReview(fen,entry,prior,game.history.length);
+ checkResult();queueComputer();
+}
+function explainSelection(i){if(experience!=='learn')return;const p=game.board[i],guide=ChessCoach.pieces[p.toLowerCase()],offered=suggestions().find(m=>m.from===i);selectionText={title:`${guide?.name||names[p.toLowerCase()]} em ${sq(i)}`,text:offered?ChessCoach.explainRecommendation(game,offered):guide?.rule||'Escolha a casa de destino no tabuleiro.',details:offered?[guide?.rule||'']:['Você pode fazer qualquer lance legal. Depois, a análise explicará como sua escolha se compara às sugestões.']};renderCoach();}
+function illegalAttempt(from,to){
+ const p=game.board[from];if(!p)return;
+ if(experience==='free'){toast('Esse movimento não é permitido.');return;}
+ const guide=ChessCoach.pieces[p.toLowerCase()];let text=guide?.rule||'Escolha outra casa para essa peça.';
+ if(game.board[to]&&color(game.board[to])===game.turn)text='Essa casa contém uma peça sua. Você não pode capturar suas próprias peças.';
+ else if(game._pseudoMoves(from).some(m=>m.to===to))text='Esse movimento deixaria seu rei ameaçado. Seu lance precisa eliminar o xeque e manter o rei seguro.';
+ selectionText={title:'Esse lance é ilegal nesta posição.',text,details:['Uma recomendação é uma sugestão. Um lance ilegal, por outro lado, não pode ser executado pelas regras do jogo.']};renderCoach();
+}
+function chooseSquare(i){
+ if(!Number.isInteger(i)||i<0||i>63||thinking||promotion||game.status().over||!humanTurn())return;focusSquare=i;
+ if(selected!==null){const candidates=legal.filter(m=>m.to===i);if(candidates.length){if(candidates[0].promotion){promotion={from:selected,to:i};$('promotion-options').innerHTML=['q','r','b','n'].map(p=>`<button data-promote="${p}">${pieceSvg(game.turn==='w'?p.toUpperCase():p)}<span>${({q:'Dama',r:'Torre',b:'Bispo',n:'Cavalo'})[p]}</span></button>`).join('');$('promotion-dialog').showModal();return;}commit(candidates[0]);return;}}
+ if(selected===i){selected=null;legal=[];selectionText=null;}
+ else if(game.board[i]&&color(game.board[i])===game.turn){selected=i;legal=game.moves({square:i});explainSelection(i);}
+ else if(selected!==null)illegalAttempt(selected,i);
+ else if(experience==='learn'&&game.board[i]){selectionText={title:'Agora jogam as '+sideName(game.turn)+'.',text:'Essa peça é do outro lado. Selecione uma das suas peças para jogar.'};}
+ renderCoach();renderBoard();
+}
+function openMenu(){drawerOpen=true;$('menu-drawer').hidden=false;$('menu-backdrop').hidden=false;$('menu-open').setAttribute('aria-expanded','true');$('game-screen').inert=true;renderStatus();$('menu-close').focus();}
+function closeMenu(focus=true){drawerOpen=false;$('menu-drawer').hidden=true;$('menu-backdrop').hidden=true;$('menu-open').setAttribute('aria-expanded','false');$('game-screen').inert=false;if(focus)$('menu-open').focus();}
+function setExperience(next){if(next===experience){closeMenu();return;}experience=next==='learn'?'learn':'free';cancelJob('suggest');cancelJob('review');recommendation=null;review=null;selectionText=null;recommending=false;reviewing=false;selected=null;legal=[];detailsOpen=false;save();closeMenu();render();if(experience==='learn')startRecommendations();}
+function setView(next){view=next==='3d'&&renderer?'3d':'2d';$('board-3d').hidden=view!=='3d';$('board-flat').hidden=view==='3d';$('view-3d').setAttribute('aria-pressed',String(view==='3d'));$('view-2d').setAttribute('aria-pressed',String(view==='2d'));renderBoard();}
+function openNew(){closeMenu(false);draftColor=human;$('opponent-select').value=opponent;$('level-select').value=level;$('computer-options').hidden=opponent!=='computer';document.querySelectorAll('[data-color]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===draftColor)));$('new-warning').hidden=!game.history.length;$('new-dialog').showModal();}
+function newGame(){stopAll();clearTimeout(resultTimer);gameEpoch++;game=new ChessEngine();opponent=$('opponent-select').value==='local'?'local':'computer';human=draftColor==='random'?(Math.random()<.5?'w':'b'):draftColor;level=$('level-select').value;flipped=opponent==='computer'&&human==='b';selected=null;legal=[];canvasFocus=null;promotion=null;recommendation=null;review=null;selectionText=null;resultShown=false;focusSquare=flipped?7:56;renderer?.resetCamera(flipped);$('new-dialog').close();save();render();queueComputer();}
+function undo(){stopAll();clearTimeout(resultTimer);gameEpoch++;if($('result-dialog').open)$('result-dialog').close();game.undo();if(opponent==='computer'&&game.turn!==human&&game.history.length)game.undo();selected=null;legal=[];canvasFocus=null;recommendation=null;review=null;selectionText=null;resultShown=false;save();render();queueComputer();}
+function keyboard(e,canvas){if(e.key==='Escape'){selected=null;legal=[];canvasFocus=null;selectionText=null;renderCoach();renderBoard();return;}if(canvas&&(e.key==='Enter'||e.key===' ')){e.preventDefault();chooseSquare(canvasFocus??focusSquare);return;}const offset={ArrowUp:-8,ArrowDown:8,ArrowLeft:-1,ArrowRight:1}[e.key];if(offset===undefined)return;e.preventDefault();const index=canvas?(canvasFocus??focusSquare):Number(e.target.closest('[data-square]')?.dataset.square);if(!Number.isInteger(index))return;const visible=flipped?63-index:index;if((e.key==='ArrowLeft'&&visible%8===0)||(e.key==='ArrowRight'&&visible%8===7))return;const next=visible+offset;if(next<0||next>63)return;focusSquare=flipped?63-next:next;if(canvas){canvasFocus=focusSquare;const p=game.board[focusSquare];announce(`${sq(focusSquare)}, ${p?label(p):'vazia'}`);renderBoard();}else{$('board').querySelectorAll('[data-square]').forEach(b=>b.tabIndex=Number(b.dataset.square)===focusSquare?0:-1);$('board').querySelector(`[data-square="${focusSquare}"]`).focus();}}
+$('menu-open').onclick=()=>drawerOpen?closeMenu():openMenu();$('menu-close').onclick=()=>closeMenu();$('menu-backdrop').onclick=()=>closeMenu();
+document.addEventListener('keydown',e=>{if(!drawerOpen)return;if(e.key==='Escape'){e.preventDefault();closeMenu();return;}if(e.key==='Tab'){const options=[...$('menu-drawer').querySelectorAll('button,select,summary')].filter(n=>!n.disabled&&n.getClientRects().length);const first=options[0],last=options.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
+document.querySelectorAll('[data-experience]').forEach(b=>b.onclick=()=>setExperience(b.dataset.experience));
+$('board').addEventListener('click',e=>{const b=e.target.closest('[data-square]');if(b)chooseSquare(Number(b.dataset.square));});$('board').addEventListener('keydown',e=>keyboard(e,false));$('board-3d').addEventListener('keydown',e=>keyboard(e,true));
+$('recommendations').onclick=e=>{const b=e.target.closest('[data-recommendation]');if(!b)return;const m=suggestions()[Number(b.dataset.recommendation)];if(!m||thinking)return;selected=m.from;legal=game.moves({square:selected});focusSquare=selected;explainSelection(selected);renderBoard();};
+$('coach-more').onclick=()=>{detailsOpen=!detailsOpen;renderCoach();};
+$('new-button').onclick=openNew;$('start-button').onclick=newGame;$('undo-button').onclick=undo;
+$('flip-button').onclick=()=>{flipped=!flipped;canvasFocus=null;save();renderBoard();};
+$('opponent-select').onchange=()=>$('computer-options').hidden=$('opponent-select').value!=='computer';
+document.querySelectorAll('[data-color]').forEach(b=>{b.innerHTML=b.dataset.color==='random'?'<span style="font-size:25px">↔</span>Aleatórias':pieceSvg(b.dataset.color==='w'?'K':'k')+(b.dataset.color==='w'?'Brancas':'Pretas');b.onclick=()=>{draftColor=b.dataset.color;document.querySelectorAll('[data-color]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.color===draftColor)));};});
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());$('new-dialog').addEventListener('close',checkResult);
+$('promotion-options').onclick=e=>{const b=e.target.closest('[data-promote]');if(!b||!promotion)return;const move={...promotion,promotion:b.dataset.promote};$('promotion-dialog').close();commit(move);};$('promotion-dialog').addEventListener('close',()=>promotion=null);$('cancel-promotion').onclick=()=>$('promotion-dialog').close();
+$('play-again').onclick=()=>{$('result-dialog').close();openNew();};
+$('sound-button').onclick=()=>{sound=!sound;save();renderStatus();if(sound)playSound();};
+$('view-2d').onclick=()=>{setView('2d');save();closeMenu();};$('view-3d').onclick=()=>{setView('3d');save();closeMenu();};
+const adjust=change=>{if(renderer)renderer.setCamera(change(renderer.getCamera()));};
+$('camera-reset').onclick=()=>renderer?.resetCamera(flipped);$('camera-left').onclick=()=>adjust(c=>({...c,yaw:c.yaw-.3}));$('camera-right').onclick=()=>adjust(c=>({...c,yaw:c.yaw+.3}));$('camera-up').onclick=()=>adjust(c=>({...c,elevation:c.elevation>1.15?.73:c.elevation+.15}));$('camera-in').onclick=()=>adjust(c=>({...c,zoom:c.zoom*1.1}));$('camera-out').onclick=()=>adjust(c=>({...c,zoom:c.zoom/1.1}));
+$('export-button').onclick=()=>{const s=game.status(),result=s.over?(s.winner?(s.winner==='w'?'1-0':'0-1'):'1/2-1/2'):'*',name=c=>opponent==='local'?`Jogador de ${sideName(c)}`:c===human?'Voce':'Computador';let pgn=`[Event "Casa 64"]\n[Site "Local"]\n[Date "${new Date().toISOString().slice(0,10).replaceAll('-','.')}"]\n[Round "-"]\n[White "${name('w')}"]\n[Black "${name('b')}"]\n[Result "${result}"]\n\n`;game.history.forEach((m,i)=>{pgn+=(i%2===0?`${i/2+1}. `:'')+m.san+' ';});pgn+=result+'\n';const url=URL.createObjectURL(new Blob([pgn],{type:'application/x-chess-pgn;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='casa64-partida.pgn';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+restore();try{renderer=new Chess3D($('board-3d'),{onSquare:i=>{canvasFocus=null;chooseSquare(i);}});}catch{renderer=null;}
+$('view-3d').disabled=!renderer;setView(view);render();queueComputer();
+})();
+</script>
+</body>
+</html>
