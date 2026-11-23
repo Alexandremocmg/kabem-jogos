@@ -2,9 +2,9 @@
   "site": {
     "nome": "Kabem Jogos",
     "url": "https://jogos.kabemmanager.online",
-    "titulo": "Kabem Jogos — jogue no navegador, sem instalar e sem cadastro",
-    "descricao": "Jogos de navegador em português: cartas, corrida, aventura e esconde-esconde em 3D. Toque e jogue em segundos, no celular ou no PC, sem instalar e sem cadastro.",
-    "atualizado": "2026-11-21"
+    "titulo": "Kabem Jogos — Jogos brasileiros para jogar no navegador",
+    "descricao": "Jogue no navegador em português. Dispute a Copa das Marés no Turbo Maré, chame amigos para o Kabemjunto ou explore aventuras e corridas solo.",
+    "atualizado": "2026-11-23"
   },
   "jogos": [
     {
@@ -35,8 +35,8 @@
     {
       "id": "turbo",
       "nome": "Turbo Maré",
-      "gancho": "Pegue os anéis de turbo e escape dos tentáculos.",
-      "descricao": "Corrida 3D pelo Circuito do Kraken: dez pilotos largam em um píer tropical e os seis primeiros a cruzar a linha em até 90 segundos se classificam. Pule, mergulhe, pegue os anéis de turbo, escolha entre Lontra, Tubarão, Axolote ou Marujo e chame amigos para uma sala online na Copa das Marés.",
+      "gancho": "Corra do píer do Kraken ao topo do Farol.",
+      "descricao": "Corrida 3D com a Baía do Kraken, o Estaleiro à Deriva e o Farol da Ressaca. Dispute a Copa das Marés em uma sala para até seis pilotos, treine no seu ritmo ou corra contra bots.",
       "url": "https://alexandremocmg.github.io/turbo_mare/",
       "imagem": "img/turbo.webp",
       "imagemAlt": "Dez pilotos na linha de largada de um píer tropical, com palmeiras, ilhas e um farol ao fundo",

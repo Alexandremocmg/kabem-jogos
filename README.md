@@ -3,18 +3,18 @@
 Vitrine estática dos jogos da Kabem: a **porta de entrada** para jogar no navegador. Mostra cada jogo com uma imagem de partida, uma descrição curta e um botão **Jogar** que leva direto ao jogo. Pensada para ser encontrada em buscas e compartilhada (celular primeiro).
 
 - **Endereço:** https://jogos.kabemmanager.online
-- **Sem framework e sem dependências:** uma página HTML, imagens WebP leves e um script de poucas linhas que só ativa o botão **Compartilhar**.
+- **Sem framework e sem dependências de execução.** A vitrine e a página da Copa são HTML estático. O JavaScript oferece filtros e compartilhamento.
 - **Sem cookies e sem rastreadores.**
 
 ## Como funciona
 
-A página **não é escrita à mão**: `index.html` é gerado por `build.mjs` a partir de `games.json`. Assim os dados de cada jogo (texto, imagem, selos, dados estruturados para busca) ficam num lugar só e não saem de sincronia.
+O `build.mjs` gera a vitrine e a página de Turbo Maré a partir de `games.json` e das informações das pistas no próprio gerador. Os dois HTMLs usam `site.css` e `site.js`.
 
 | Arquivo                    | Para que serve                                                                                  |
 | -------------------------- | ----------------------------------------------------------------------------------------------- |
-| `games.json`               | Os dados do site e de cada jogo. **É o único arquivo que você edita para mudar a vitrine.**     |
-| `build.mjs`                | Gera `index.html`, `sitemap.xml` e `robots.txt`. Valida o `games.json` antes de escrever.       |
-| `index.html`               | **Gerado.** Vai commitado, porque a VPS serve a raiz do repositório sem build.                  |
+| `games.json`               | Dados do site e do catálogo.                                                              |
+| `build.mjs`                | Gera a vitrine, a página do Turbo Maré, `sitemap.xml` e `robots.txt`.                            |
+| `index.html` e `jogos/turbo-mare/index.html` | Páginas geradas e versionadas para publicação estática na VPS. |
 | `img/*.webp`               | Imagem de cada jogo (800×450). `img/og.jpg` é a prévia de compartilhamento (1200×630).          |
 | `tools/imagens.py`         | Converte capturas de tela em `img/*.webp`, `og.jpg` e `apple-touch-icon.png` (requer Pillow).   |
 | `tools/capturar-telas.cjs` | Joga cada jogo por um navegador e salva uma captura em ação (requer Playwright).                |
@@ -33,7 +33,7 @@ Abra `index.html` por um servidor local (por exemplo `python -m http.server 5290
 1. Confirme que o jogo está no ar, em HTTPS, e que abre sem cadastro.
 2. Adicione um objeto em `jogos` no `games.json`, com todos os campos (o `build.mjs` recusa o arquivo se faltar algum):
    `id`, `nome`, `gancho` (uma frase), `descricao`, `url`, `imagem`, `imagemAlt`, `modos`, `jogadores`, `duracao`, `plataforma`, `selo` (`null`, `"Beta"` ou `"Protótipo"`), `generos` e `playMode` (`SinglePlayer` e/ou `MultiPlayer`).
-3. Gere a imagem: coloque uma captura 1280×720 em ação em uma pasta, acrescente o `id` em `CAPTURAS` no `tools/imagens.py` e rode `python tools/imagens.py <pasta>`. O primeiro jogo da lista é o **destaque** (cartão grande).
+3. Gere a imagem com uma captura em ação (1280×720). Acrescente o jogo em `CAPTURAS` no `tools/imagens.py` e rode `python tools/imagens.py <pasta>`. Para incluí-lo em um filtro, atualize `gameCategories` em `build.mjs`.
 4. Rode `node build.mjs` e confira a página.
 5. Faça o commit e atualize a VPS (abaixo).
 
@@ -62,5 +62,8 @@ O que já está no `index.html`, gerado pelo `build.mjs`:
 - Dados estruturados (`schema.org`): um `WebSite` e uma lista de `VideoGame`, um por jogo.
 - `sitemap.xml` e `robots.txt`.
 - Cada cartão tem o botão **Compartilhar** (menu nativo do celular; no PC, copia o link).
+  O Turbo Maré tem compartilhamento na página da Copa, com uma imagem social própria.
+
+O [roteiro de lançamento](docs/LANCAMENTO.md) reúne o clipe da Copa e as métricas para acompanhar a divulgação.
 
 Para a página ser **encontrada**, falta o que o código não faz: cadastrar o endereço no Google Search Console e no Bing Webmaster Tools, enviar o `sitemap.xml` e divulgar o link (redes, comunidades, canais). Para medir visitas sem rastreadores, use o log de acesso do nginx dos jogos.
