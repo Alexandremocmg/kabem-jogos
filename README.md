@@ -13,8 +13,8 @@ O `build.mjs` gera a vitrine e a página de Turbo Maré a partir de `games.json`
 | Arquivo                    | Para que serve                                                                                  |
 | -------------------------- | ----------------------------------------------------------------------------------------------- |
 | `games.json`               | Dados do site e do catálogo.                                                              |
-| `build.mjs`                | Gera a vitrine, a página do Turbo Maré, `sitemap.xml` e `robots.txt`.                            |
-| `index.html` e `jogos/turbo-mare/index.html` | Páginas geradas e versionadas para publicação estática na VPS. |
+| `build.mjs`                | Gera a vitrine, as páginas do Turbo Maré e do Kabemjunto, `sitemap.xml` e `robots.txt`.         |
+| `index.html`, `jogos/turbo-mare/index.html` e `jogos/kabemjunto/index.html` | Páginas geradas e versionadas para publicação estática na VPS. |
 | `img/*.webp`               | Imagem de cada jogo (800×450). `img/og.jpg` é a prévia de compartilhamento (1200×630).          |
 | `tools/imagens.py`         | Converte capturas de tela em `img/*.webp`, `og.jpg` e `apple-touch-icon.png` (requer Pillow).   |
 | `tools/capturar-telas.cjs` | Joga cada jogo por um navegador e salva uma captura em ação (requer Playwright).                |
