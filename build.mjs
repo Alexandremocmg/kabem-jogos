@@ -5,6 +5,8 @@ const root = fileURLToPath(new URL('./', import.meta.url));
 const { site, jogos } = JSON.parse(readFileSync(root + 'games.json', 'utf8'));
 const turbo = jogos.find(game => game.id === 'turbo');
 const turboPath = 'jogos/turbo-mare/';
+const kabem = jogos.find(game => game.id === 'kabemjunto');
+const kabemPath = 'jogos/kabemjunto/';
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[char]));
@@ -29,8 +31,26 @@ const tracks = [
 const title = 'Turbo Maré — Copa das Marés | Kabem Jogos';
 const description = 'Dispute três pistas de corrida 3D com até seis pilotos no navegador. Veja como criar uma sala, os controles e os atalhos da maré baixa.';
 const shareImage = 'img/turbo-social.jpg';
+const kabemTitle = 'Kabemjunto — O jogo de cartas que te denuncia | Kabem Jogos';
+const kabemDescription = 'Jogue Kabemjunto grátis no navegador com 2 a 10 pessoas, sem cadastro. Mesa 3D, Regra do 7 no chat, Corta-Frente e 0+ Zero Mais para devolver ataques.';
+const kabemShareImage = 'img/kabemjunto-social.jpg';
+const kabemCards = [
+  ['0+ Zero Mais', '1 carta única', 'img/kabemjunto/zero-mais.webp',
+    'Devolve toda a pilha de ataque acumulado para o último atacante, sem defesa. Sem ataque ativo, escolhe a cor.'],
+  ['+2 Para Todos', '1 carta', 'img/kabemjunto/mais-dois-todos.webp',
+    'Todos os adversários compram 2 cartas na hora, sem defesa ou repasse. Quem jogou escolhe a cor.'],
+  ['Troca Mão', '1 carta', 'img/kabemjunto/troca-mao.webp',
+    'Escolha qualquer adversário na mesa e troque todas as suas cartas pelas dele.'],
+  ['Gira Mão', '1 carta', 'img/kabemjunto/gira-mao.webp',
+    'Todas as mãos da mesa passam para o jogador ao lado no sentido atual da rodada.'],
+  ['+4', '4 cartas', 'img/kabemjunto/mais-quatro.webp',
+    'Obriga o próximo a comprar 4 cartas (ou empilhar outro +4 / devolver com 0+ Zero Mais) e define a nova cor.'],
+  ['Coringa', '1 carta', 'img/kabemjunto/coringa.webp',
+    'Muda a cor ativa da mesa na hora que você precisar.']
+];
 
 if (!turbo) throw new Error('Turbo Maré é obrigatório no catálogo.');
+if (!kabem) throw new Error('Kabemjunto é obrigatório no catálogo.');
 const used = new Set();
 for (const game of jogos) {
   for (const key of ['id', 'nome', 'gancho', 'descricao', 'url', 'imagem', 'imagemAlt', 'modos', 'jogadores', 'duracao', 'plataforma', 'generos', 'playMode']) {
@@ -41,23 +61,38 @@ for (const game of jogos) {
   if (game.url.startsWith('./')) readFileSync(root + game.url.slice(2) + 'index.html');
   used.add(game.id);
 }
-for (const image of [shareImage, ...jogos.map(game => game.imagem), ...tracks.map(([,img]) => `img/${img}.webp`)]) {
+for (const image of [
+  shareImage,
+  kabemShareImage,
+  ...jogos.map(game => game.imagem),
+  ...tracks.map(([, img]) => `img/${img}.webp`),
+  ...kabemCards.map(([, , img]) => img)
+]) {
   if (!readFileSync(root + image).length) throw new Error(`Imagem vazia: ${image}`);
 }
 
 function gameSchema(game) {
   return {
     '@type': 'VideoGame', name: game.nome, description: game.descricao,
-    url: game.id === 'turbo' ? absolute(turboPath) : absolute(game.url),
+    url: game.id === 'turbo' ? absolute(turboPath) : game.id === 'kabemjunto' ? absolute(kabemPath) : absolute(game.url),
     image: absolute(game.imagem), genre: game.generos, inLanguage: 'pt-BR',
     gamePlatform: 'Navegador', playMode: game.playMode.map(mode => `https://schema.org/${mode}`)
   };
 }
 
-function page({ heading, description, path = '', relative = './', schema, content, detail = false }) {
+function page({
+  heading,
+  description,
+  path = '',
+  relative = './',
+  schema,
+  content,
+  detail = false,
+  ogImage = detail ? shareImage : 'img/og.jpg',
+  ogAlt = detail ? 'Turbo Maré e Copa das Marés sobre uma captura do Farol da Ressaca' : 'Kabem Jogos e capturas de jogos do catálogo'
+}) {
   const url = absolute(path);
-  const ogImage = absolute(detail ? shareImage : 'img/og.jpg');
-  const ogAlt = detail ? 'Turbo Maré e Copa das Marés sobre uma captura do Farol da Ressaca' : 'Kabem Jogos e capturas de jogos do catálogo';
+  const ogImageUrl = absolute(ogImage);
   return `<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -77,7 +112,7 @@ function page({ heading, description, path = '', relative = './', schema, conten
   <meta property="og:title" content="${esc(heading)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${esc(url)}">
-  <meta property="og:image" content="${esc(ogImage)}">
+  <meta property="og:image" content="${esc(ogImageUrl)}">
   <meta property="og:image:alt" content="${esc(ogAlt)}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -90,7 +125,7 @@ function page({ heading, description, path = '', relative = './', schema, conten
   <header class="topbar">
     <div class="wrap topbar-inner">
       <a class="brand" href="${relative}" aria-label="Kabem Jogos, início"><span aria-hidden="true">K</span>KABEM<span class="brand-games"> JOGOS</span></a>
-      <nav aria-label="Principal"><a href="${relative}#jogos">Jogos</a><a href="${detail ? '#pistas' : relative + turboPath}">Copa das Marés</a></nav>
+      <nav aria-label="Principal"><a href="${relative}#jogos">Jogos</a><a href="${relative}${turboPath}">Copa das Marés</a><a href="${relative}${kabemPath}">Kabemjunto</a></nav>
     </div>
   </header>
   <main id="principal" tabindex="-1">${content}
@@ -131,7 +166,11 @@ function hero(detail = false) {
 }
 
 function card(game) {
-  const info = game.id === 'turbo' ? `<a class="text-link" href="./${turboPath}">Ver pistas</a>` : share(game, absolute(game.url));
+  const info = game.id === 'turbo'
+    ? `<a class="text-link" href="./${turboPath}">Ver pistas</a>`
+    : game.id === 'kabemjunto'
+      ? `<a class="text-link" href="./${kabemPath}">Como jogar</a>`
+      : share(game, absolute(game.url));
   return `
       <article class="card" id="${esc(game.id)}" data-groups="${esc(gameCategories[game.id] || '')}">
         <div class="card-cover"><img src="./${esc(game.imagem)}" width="800" height="450" alt="${esc(game.imagemAlt)}" loading="lazy" decoding="async">${game.selo ? `<span class="badge">${esc(game.selo)}</span>` : ''}</div>
@@ -187,6 +226,90 @@ const detail = `${hero(true)}
       </section>
     </div>`;
 
+const kabemHero = `
+    <section class="feature wrap" aria-labelledby="feature-title">
+      <div class="feature-media">
+        <img src="../../${esc(kabem.imagem)}" width="800" height="450" alt="${esc(kabem.imagemAlt)}" fetchpriority="high">
+      </div>
+      <div class="feature-copy">
+        <p class="eyebrow">Cartas · 2 a 10 jogadores</p>
+        <h1 id="feature-title">Kabem<em>junto</em></h1>
+        <p>O jogo de cartas que te denuncia. Reúna de 2 a 10 pessoas na mesma mesa 3D pelo navegador, sem cadastro e sem baixar nada.</p>
+        <div class="actions">${play(kabem, 'Jogar Kabemjunto', 'kabemjunto_capa')} ${share(kabem, absolute(kabemPath))}</div>
+      </div>
+      <div class="feature-caption">Baralho de 109 cartas <span aria-hidden="true">◆</span> Mesa 3D e 2D</div>
+    </section>`;
+const kabemSpecialCards = kabemCards.map(([name, qty, image, desc]) => `
+      <article class="card">
+        <div class="card-cover deck-card"><img src="../../${esc(image)}" alt="Carta ${esc(name)} do Kabemjunto" loading="lazy" decoding="async"></div>
+        <div class="card-content"><p class="category">${esc(qty)}</p><h3>${esc(name)}</h3><p class="card-description">${esc(desc)}</p></div>
+      </article>`).join('');
+const kabemDetail = `${kabemHero}
+    <div class="wrap detail-nav"><a href="../../#jogos">← Todos os jogos</a><a href="#regras">Regras</a><a href="#cartas">Cartas especiais</a><a href="#como-jogar">Como jogar</a><a href="#duvidas">Dúvidas</a></div>
+    <section class="wrap collection" id="regras" aria-labelledby="regras-title">
+      <div class="section-heading"><div><p class="eyebrow">Por que vira caos</p><h2 id="regras-title">4 regras que mudam tudo na mesa</h2></div></div>
+      <div class="rules-grid">
+        <section class="panel">
+          <p class="eyebrow">Online</p>
+          <h3>Regra do 7 (Silêncio)</h3>
+          <p>O 7 tem face comum, sem ícone especial. Quando cai na mesa online, abre o silêncio até a próxima carta: quem mandar mensagem ou fala rápida no chat compra +2 na hora.</p>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">Reviravolta</p>
+          <h3>0+ Zero Mais (Reflexo)</h3>
+          <p>Recebeu uma pilha acumulada de +2 e +4? Jogue o 0+ Zero Mais para devolver tudo ao último atacante, sem direito a defesa.</p>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">Fora da vez</p>
+          <h3>Corta-Frente</h3>
+          <p>Tem uma carta idêntica (mesma cor e mesmo número ou ação) à que acabou de cair? Arraste antes do anel acabar para cortar a frente fora da vez.</p>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">Combos</p>
+          <h3>Descarte Múltiplo e Ataques</h3>
+          <p>Junte duas ou mais cartas da mesma face para jogar de uma vez. Nos ataques, +2 soma com +2 e +4 cobre +2 ou +4, mas +2 sobre +4 é proibido.</p>
+        </section>
+      </div>
+    </section>
+    <section class="wrap collection" id="cartas" aria-labelledby="cartas-title">
+      <div class="section-heading"><div><p class="eyebrow">Baralho de 109 cartas</p><h2 id="cartas-title">As cartas especiais</h2></div></div>
+      <div class="grid">${kabemSpecialCards}</div>
+    </section>
+    <div class="wrap guide">
+      <section class="panel" id="como-jogar">
+        <p class="eyebrow">Sem manual longo</p><h2>Como jogar</h2>
+        <ol>
+          <li>Escolha <strong>Jogar agora</strong> (mesa pública que completa com bots em até 10 s), crie uma sala privada com código ou jogue <strong>Só contra bots</strong>.</li>
+          <li>Na sua vez, as cartas válidas brilham na mão. Arraste uma até o centro da mesa 3D (ou toque duas vezes).</li>
+          <li>Toque em cartas da mesma face para montar grupo, ou toque no monte para comprar.</li>
+          <li>Quem esvaziar a mão primeiro vence na hora.</li>
+        </ol>
+        <table><thead><tr><th scope="col">Ação</th><th scope="col">Como fazer na mesa</th></tr></thead>
+          <tbody><tr><th scope="row">Jogar carta</th><td>Arraste a carta que brilha até o centro (ou toque 2×)</td></tr>
+          <tr><th scope="row">Descarte múltiplo</th><td>Toque nas cartas da mesma face e jogue o grupo</td></tr>
+          <tr><th scope="row">Comprar</th><td>Toque no monte central</td></tr>
+          <tr><th scope="row">Corta-Frente</th><td>Arraste a carta idêntica enquanto o anel gira</td></tr></tbody></table>
+      </section>
+      <section class="panel" id="modos">
+        <p class="eyebrow">Online e offline</p><h2>Modos e personalização</h2>
+        <ul>
+          <li><strong>Mesa pública rápida (Jogar agora):</strong> escolha de 2 a 10 lugares; se faltar gente, os bots completam em até 10 segundos.</li>
+          <li><strong>Sala com amigos:</strong> crie uma sala privada ou pública, mande o código ou Card de Desafio, use chat, falas rápidas e ranking semanal em salas privadas.</li>
+          <li><strong>Offline contra bots (PWA):</strong> instale na tela inicial do celular e jogue mesmo sem internet.</li>
+          <li><strong>Personalização e acessibilidade:</strong> 12 avatares, 3 temas de mesa (Floresta, Neon e Areia), modo 2D automático sem WebGL, navegação por teclado e símbolos geométricos em cada cor.</li>
+        </ul>
+      </section>
+    </div>
+    <section class="wrap panel faq" id="duvidas" aria-labelledby="faq-title">
+      <p class="eyebrow">Perguntas frequentes</p><h2 id="faq-title">Dúvidas</h2>
+      <details><summary>Preciso baixar aplicativo ou criar conta?</summary><p>Não. O Kabemjunto abre direto no navegador do celular ou PC, sem cadastro. Para jogar offline contra bots, você pode instalar como PWA pelo menu do navegador.</p></details>
+      <details><summary>Quantas pessoas podem jogar juntas?</summary><p>De 2 a 10 jogadores na mesma partida, seja online com amigos, na mesa pública rápida ou contra bots no seu aparelho.</p></details>
+      <details><summary>A Regra do 7 usa o microfone do celular?</summary><p>Não. O jogo não acessa seu microfone. No modo online, a Regra do 7 monitora o chat escrito e as falas rápidas dentro da sala: quem enviar mensagem durante o silêncio compra +2 cartas.</p></details>
+      <details><summary>Posso jogar +2 em cima de +4?</summary><p>Não. O acúmulo é assimétrico: +2 acumula com +2 e +4 cobre +2 ou +4, mas +2 sobre +4 é proibido. Para devolver um +4, só com outro +4 ou com o 0+ Zero Mais.</p></details>
+      <details><summary>Funciona em celulares mais simples?</summary><p>Sim. Além da Mesa 3D carregada sob demanda, o jogo conta com uma Mesa 2D embutida com as mesmas regras e interações.</p></details>
+      <div class="actions">${play(kabem, 'Jogar Kabemjunto', 'kabemjunto_rodape')} <a class="button quiet" href="../../#jogos">← Voltar ao catálogo</a></div>
+    </section>`;
+
 const homeSchema = {
   '@graph': [
     { '@type': 'WebSite', name: site.nome, url: absolute(''), description: site.descricao, inLanguage: 'pt-BR' },
@@ -200,11 +323,19 @@ writeFileSync(root + turboPath + 'index.html', page({
   heading: title, description, path: turboPath, relative: '../../', detail: true, content: detail,
   schema: { ...gameSchema(turbo), description, image: absolute(shareImage) }
 }));
+mkdirSync(root + kabemPath, { recursive: true });
+writeFileSync(root + kabemPath + 'index.html', page({
+  heading: kabemTitle, description: kabemDescription, path: kabemPath, relative: '../../', detail: true,
+  ogImage: kabemShareImage,
+  ogAlt: 'Kabemjunto — O jogo de cartas que te denuncia. Cartas especiais e mesa 3D no navegador.',
+  content: kabemDetail,
+  schema: { ...gameSchema(kabem), description: kabemDescription, image: absolute(kabemShareImage) }
+}));
 writeFileSync(root + 'sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${['', turboPath, ...jogos.filter(game => game.url.startsWith('./')).map(game => game.url)].map(path =>
+${['', turboPath, kabemPath, ...jogos.filter(game => game.url.startsWith('./')).map(game => game.url)].map(path =>
   `  <url><loc>${esc(absolute(path))}</loc><lastmod>${site.atualizado}</lastmod></url>`).join('\n')}
 </urlset>
 `);
 writeFileSync(root + 'robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${absolute('sitemap.xml')}\n`);
-console.log(`Vitrine com ${jogos.length} jogos e página do Turbo Maré geradas.`);
+console.log(`Vitrine com ${jogos.length} jogos e páginas de Turbo Maré e Kabemjunto geradas.`);
